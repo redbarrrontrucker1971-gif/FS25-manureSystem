@@ -136,7 +136,7 @@ function ManureSystemConnectorManager:loadMapData()
     local collisionFilename = Utils.getFilename("resources/collisions/connectorCollision.i3d", self.modDirectory)
     local collisionRoot = g_i3DManager:loadSharedI3DFile(collisionFilename, false, false)
     self.collision = getChildAt(collisionRoot, 0)
-    setCollisionMask(self.collision, ManureSystemConnectorManager.COLLISION_MASK)
+    setCollisionFilterMask(self.collision, ManureSystemConnectorManager.COLLISION_MASK)
     setRigidBodyType(self.collision, RigidBodyType.KINEMATIC)
 end
 

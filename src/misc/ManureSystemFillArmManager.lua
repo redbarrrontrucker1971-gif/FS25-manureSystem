@@ -27,7 +27,7 @@ end
 function ManureSystemFillArmManager:loadMapData()
     local collisionRoot = g_i3DManager:loadSharedI3DFile(Utils.getFilename("resources/collisions/fillArmCollision.i3d", self.modDirectory), false, false)
     self.collision = getChildAt(collisionRoot, 0)
-    setCollisionMask(self.collision, ManureSystemFillArmManager.COLLISION_MASK)
+    setCollisionFilterMask(self.collision, ManureSystemFillArmManager.COLLISION_MASK)
 
     local effectsRoot = g_i3DManager:loadSharedI3DFile(Utils.getFilename("resources/effects/effect.i3d", self.modDirectory), false, false)
     self.effects = getChildAt(effectsRoot, 0)

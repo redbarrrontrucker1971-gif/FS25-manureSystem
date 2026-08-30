@@ -62,6 +62,12 @@ end
 
 ---@return boolean, number
 function ManureSystemPlaceableBase:addManureSystemStorage(storage)
+    -- FS25: husbandry / production-point specs can hand a nil storage in during load;
+    -- bail out early so table.addElement + storage.index don't crash on nil.
+    if storage == nil then
+        return false, nil
+    end
+
     local success, index = table.addElement(self.spec_manureSystemPlaceableBase.storages, storage)
 
     if success then

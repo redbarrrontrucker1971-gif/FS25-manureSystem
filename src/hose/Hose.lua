@@ -703,7 +703,7 @@ function Hose:grab(id, player, noEventSend)
     if self.isServer then
         local componentNode = self.components[grabNode.componentIndex].node
         local newCollisionFlag = bitXOR(bitAND(grabNode.componentCollisionMask, CollisionMask.PLAYER_KINEMATIC), grabNode.componentCollisionMask)
-        setCollisionMask(componentNode, newCollisionFlag)
+        setCollisionFilterMask(componentNode, newCollisionFlag)
 
         local desc = {}
 
@@ -741,7 +741,7 @@ function Hose:drop(id, player, noEventSend)
         end
 
         local componentNode = self.components[grabNode.componentIndex].node
-        setCollisionMask(componentNode, grabNode.componentCollisionMask)
+        setCollisionFilterMask(componentNode, grabNode.componentCollisionMask)
     end
 
     grabNode.jointIndex = nil
@@ -1273,7 +1273,7 @@ function Hose.loadGrabNodes(self)
 
             local componentNode = self.components[grabNode.componentIndex].node
             grabNode.componentNode = componentNode
-            grabNode.componentCollisionMask = getCollisionMask(componentNode)
+            grabNode.componentCollisionMask = getCollisionFilterMask(componentNode)
             grabNode.state = Hose.STATE_DETACHED
             grabNode.player = nil
 

@@ -13,6 +13,18 @@ SharedSet = {}
 
 local SharedSet_mt = Class(SharedSet)
 
+-- FS25: string.getVectorN was removed from the Lua runtime, so parse the
+-- space-separated 3-component vector string manually (falls back to the default).
+local function parseVector3(str, default)
+    if str ~= nil then
+        local x, y, z = str:match("(-?[%d%.eE+]+)%s+(-?[%d%.eE+]+)%s+(-?[%d%.eE+]+)")
+        if x ~= nil then
+            return { tonumber(x), tonumber(y), tonumber(z) }
+        end
+    end
+    return default
+end
+
 ---@return SharedSet
 function SharedSet.new(modDirectory)
     local self = setmetatable({}, SharedSet_mt)
@@ -117,7 +129,7 @@ function SharedSet:loadValvesFromXML(xmlFile, baseKey)
                     handle.node = handleNode
                     handle.handleXMLKey = handleKey
                     handle.hasAnimation = xmlFile:hasProperty(handleKey .. ".vehicle.animation")
-                    handle.linkOffset = Utils.getNoNil(string.getVectorN(xmlFile:getString(handleKey .. "#linkOffset"), 3), { 0, 0, 0 })
+                    handle.linkOffset = parseVector3(xmlFile:getString(handleKey .. "#linkOffset"), { 0, 0, 0 })
 
                     valve.handles[handleTypeString:upper()] = handle
                 end

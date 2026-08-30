@@ -124,9 +124,40 @@ local function injectRegistry(xmlFilename, orgEntry, data)
     return doInject, generatedSpec
 end
 
+-- FS25: the vehicle/placeable load path may not pass data.filename, so resolve the
+-- config path tolerantly and bail out to superFunc when nothing usable is found
+-- (avoids Utils.getModNameAndBaseDirectory(nil) crashing once per load).
+local function getInsertionFilename(self, data)
+    if data ~= nil then
+        if data.filename ~= nil then
+            return data.filename
+        end
+        if data.xmlFilename ~= nil then
+            return data.xmlFilename
+        end
+        if data.configFileName ~= nil then
+            return data.configFileName
+        end
+    end
+    if self ~= nil then
+        if self.configFileName ~= nil then
+            return self.configFileName
+        end
+        if self.xmlFilename ~= nil then
+            return self.xmlFilename
+        end
+    end
+    return nil
+end
+
 local function vehicleLoad(self, superFunc, data, ...)
-    local _, baseDir = Utils.getModNameAndBaseDirectory(data.filename)
-    local xmlFilename = replaceSanitized(data.filename, baseDir, "")
+    local filename = getInsertionFilename(self, data)
+    if filename == nil then
+        return superFunc(self, data, ...)
+    end
+
+    local _, baseDir = Utils.getModNameAndBaseDirectory(filename)
+    local xmlFilename = replaceSanitized(filename, baseDir, "")
 
     if insertions[xmlFilename] == nil then
         return superFunc(self, data, ...)
@@ -146,8 +177,13 @@ local function vehicleLoad(self, superFunc, data, ...)
 end
 
 local function placeableLoad(self, superFunc, data, ...)
-    local _, baseDir = Utils.getModNameAndBaseDirectory(data.filename)
-    local xmlFilename = replaceSanitized(data.filename, baseDir, "")
+    local filename = getInsertionFilename(self, data)
+    if filename == nil then
+        return superFunc(self, data, ...)
+    end
+
+    local _, baseDir = Utils.getModNameAndBaseDirectory(filename)
+    local xmlFilename = replaceSanitized(filename, baseDir, "")
 
     if insertions[xmlFilename] == nil then
         return superFunc(self, data, ...)

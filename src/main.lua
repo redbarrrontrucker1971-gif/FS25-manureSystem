@@ -15,6 +15,28 @@ local modName = g_currentModName or "unknown"
 ---@type ManureSystem the current loaded mod env.
 local modEnvironment
 
+print("[ManureSystem] ===== FS25 conversion build: v1 (Ray custom) loaded =====")
+
+-- FS25: table.copy was removed from the sandboxed Lua environment; provide a shim so
+-- the mod's few table.copy() calls keep working. Guarded so we never override a real
+-- implementation if the game provides one.
+if table.copy == nil then
+    function table.copy(src, recursive)
+        if src == nil then
+            return nil
+        end
+        local dst = {}
+        for k, v in pairs(src) do
+            if recursive and type(v) == "table" then
+                dst[k] = table.copy(v, recursive)
+            else
+                dst[k] = v
+            end
+        end
+        return dst
+    end
+end
+
 ---Loading order should be based on dependency order
 ---@type table<string> files to source.
 local sourceFiles = {
