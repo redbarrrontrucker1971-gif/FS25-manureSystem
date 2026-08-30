@@ -14,7 +14,17 @@ ManureSystemFillArm.MOD_NAME = g_currentModName
 
 ---@return void
 function ManureSystemFillArm.initSpecialization()
-    g_configurationManager:addConfigurationType("manureSystemFillArm", g_i18n:getText("configuration_manureSystemFillArm"), nil, nil, nil, nil, ConfigurationUtil.SELECTOR_MULTIOPTION)
+    -- FS25: g_configurationManager was replaced by g_vehicleConfigurationManager, and
+    -- addConfigurationType now takes the VehicleConfigurationItem class. Guarded + pcall'd
+    -- so an API mismatch degrades gracefully instead of crashing the load.
+    local msConfigManager = g_vehicleConfigurationManager or g_configurationManager
+    if msConfigManager ~= nil and msConfigManager.addConfigurationType ~= nil then
+        if msConfigManager.getConfigurationDescByName == nil or msConfigManager:getConfigurationDescByName("manureSystemFillArm") == nil then
+            pcall(function()
+                msConfigManager:addConfigurationType("manureSystemFillArm", g_i18n:getText("configuration_manureSystemFillArm"), nil, VehicleConfigurationItem)
+            end)
+        end
+    end
 
     local schema = Vehicle.xmlSchema
     schema:setXMLSpecializationType("ManureSystemFillArm")

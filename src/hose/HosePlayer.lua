@@ -21,6 +21,21 @@ function HosePlayer.new(isClient, isServer, mission, input)
     self.mission = mission
     self.input = input
 
+    -- FS25: the Player class and its player-state machine were rewritten, so these
+    -- FS22-era injections are incompatible (PlayerStatePickup etc. are nil, which
+    -- crashed HosePlayer during player load). Only install them when the legacy API
+    -- is actually present; otherwise on-foot hose handling stays disabled for this
+    -- build (to be re-implemented against the FS25 player API in a later build).
+    local hasLegacyPlayerApi = Player ~= nil
+        and PlayerStateThrow ~= nil and PlayerStatePickup ~= nil
+        and PlayerStateWalk ~= nil and PlayerStateRun ~= nil
+        and Player.pickUpObject ~= nil and Player.checkObjectInRange ~= nil
+
+    if not hasLegacyPlayerApi then
+        print("[ManureSystem] HosePlayer: FS25 player API detected; on-foot hose injections disabled for this build.")
+        return self
+    end
+
     Player.readUpdateStream = Utils.appendedFunction(Player.readUpdateStream, HosePlayer.inj_player_readUpdateStream)
     Player.writeUpdateStream = Utils.appendedFunction(Player.writeUpdateStream, HosePlayer.inj_player_writeUpdateStream)
     Player.update = Utils.appendedFunction(Player.update, HosePlayer.inj_player_update)

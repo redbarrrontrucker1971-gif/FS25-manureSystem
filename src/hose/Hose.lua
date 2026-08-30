@@ -54,7 +54,17 @@ function Hose.initSpecialization()
     Hose.registerGrabNodeXMLPaths(schema, "vehicle.hose.manureSystemHoseConfigurations.manureSystemHoseConfiguration(?).grabNodes.grabNode(?)")
     schema:setXMLSpecializationType()
 
-    g_configurationManager:addConfigurationType("manureSystemHose", g_i18n:getText("configuration_hose"), "hose", nil, nil, nil, ConfigurationUtil.SELECTOR_MULTIOPTION)
+    -- FS25: g_configurationManager was replaced by g_vehicleConfigurationManager, and
+    -- addConfigurationType now takes the VehicleConfigurationItem class. Guarded + pcall'd
+    -- so an API mismatch degrades gracefully instead of crashing the load.
+    local msConfigManager = g_vehicleConfigurationManager or g_configurationManager
+    if msConfigManager ~= nil and msConfigManager.addConfigurationType ~= nil then
+        if msConfigManager.getConfigurationDescByName == nil or msConfigManager:getConfigurationDescByName("manureSystemHose") == nil then
+            pcall(function()
+                msConfigManager:addConfigurationType("manureSystemHose", g_i18n:getText("configuration_hose"), "hose", VehicleConfigurationItem)
+            end)
+        end
+    end
     ObjectChangeUtil.registerObjectChangeXMLPaths(schema, "vehicle.hose.manureSystemHoseConfigurations.manureSystemHoseConfiguration(?)")
 end
 
