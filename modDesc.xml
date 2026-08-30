@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<modDesc descVersion="100">
+    <author>Wopster</author>
+    <version>1.2.0.0</version>
+    <title>
+        <en>Manure System</en>
+    </title>
+    <description>
+        <en>
+            <![CDATA[The Manure System mod changes the whole gameplay around handling your manure application. Experience what it really means to pump liquids as a real farmer.
+Use the fill arms to actually be able to pump from open sources like: manure containers, lagoons amd water sources.
+Use a specialized dock arm in order to suck from a docking funnel, or simply use a suction hose.
+With a suction hose you´re able to pump a liquid fill type from source to target. If applicable you could extend the liquid manure hose to reach larger ranges.
+Pumping does not always happen at full efficiency, manure thickness decreases the pump capacity and also the length of hoses affects your pump time.
+
+All vanilla vehicles are supported (and some have additional changes), for a full list please check the manual below.
+For more information read <a href="https://github.com/stijnwop/manureSystem/blob/master/README.md">the manual on my GitHub</a>.
+
+Special thanks to VertexDezign and bm-modding for providing awesome assets!
+Special thanks to JoPi for his contribution to the script work!
+
+Slurry hose:
+- Price: $150
+
+Fertilizer hose:
+- Price: $300
+
+Changelog 1.2.0.0:
+- Fixed game crash on exit if there is still a fill arm connected to a dock
+- Fixed pumping from target, if docking station is used
+- Fixed contracting farms not being able to pump from/to production points
+- Added support for sandbox production points and "PlaceableExtendedProductionPoint"
+- Added support for vanilla unloading/loading when AI is active
+- Fixed lua error when trying to sell pallets
+- Updated translations
+
+Changelog 1.1.0.0:
+- Fixed bug with visible movement input action of player
+- Fixed connector position of PnH tank open 25m
+- Added support for Premium Expansion
+- Improved mod compatibility
+- Updated translations
+]]>
+        </en>
+        <de>
+            <![CDATA[Das Gülle System verändert das ganze Spielerlebnis in der Handhabung der Gülle. Erfahre was es heisst, als echter Landwirt Gülle zu pumpen.
+Nutze die Befüllarme um aus offenen Behältern wie Feldrandcontainern, Güllebecken und Wasserbecken zu pumpen.
+Benutze einen speziellen Füllarm um von der Andockstation anzusaugen, oder einfach den Saugschlauch.
+Mit dem Saugschlauch kannst Du Flüssigkeiten von einem in das andere Behältnis pumpen und diese einfach verlängern, um auch weitere Strecken zu überbrücken.
+Das Pumpen geschieht nicht immer mit der gleichen Geschwindigkeit, da auch dickflüssige Gülle oder die Entfernung die Pumpenleistung beeinflussen.
+
+Alle Standardfahrzeuge werden unterstützt (und manche haben kleine Ergänzungen bekommen), für die komplette Liste bitte die Anleitung im Link hier drunter lesen.
+Für weitere Informationen, lese dir die <a href="https://github.com/stijnwop/manureSystem/blob/master/README.md">manual aus dem Github</a> durch.
+
+Besonderen Dank an VertexDezign und bm-modding für die Bereitstellung der tollen assets!
+Besonderer Dank an JoPi für seinen Beitrag zum scripts!
+
+Gülleschlauch:
+- Preis: €150
+
+Düngerschlauch:
+- Preis: €300
+
+Changelog 1.2.0.0:
+- Fixed game crash on exit if there is still a fill arm connected to a dock
+- Fixed pumping from target, if docking station is used
+- Fixed contracting farms not being able to pump from/to production points
+- Added support for sandbox production points and "PlaceableExtendedProductionPoint"
+- Added support for vanilla unloading/loading when AI is active
+- Fixed lua error when trying to sell pallets
+- Updated translations
+
+Changelog 1.1.0.0:
+- Fixed bug with visible movement input action of player
+- Fixed connector position of PnH tank open 25m
+- Added support for Premium Expansion
+- Improved mod compatibility
+- Updated translations
+]]>
+        </de>
+        <fr>
+            <![CDATA[Le mod Manure System change tout le gameplay autour de la gestion de votre installation de lisier. Découvrez ce que cela signifie vraiment de pomper des liquides en tant que véritable agriculteur.
+Utilisez les bras de remplissage pour pouvoir pomper à partir de sources ouvertes telles que : les conteneurs de lisier, les bassins et les sources d'eau.
+Utilisez un bras de remplissage spécialisé afin d'aspirer à partir du cône de raccordement, ou utilisez simplement un tuyau d'aspiration.
+Avec un tuyau d'aspiration, vous pouvez pomper liquide de la source à la cible. Le cas échéant, vous pouvez allonger le tuyau d'aspiration pour atteindre de plus grandes distances.
+Le pompage ne se fait pas toujours à pleine capacité, car le volume du lisier diminue la capacité de la pompe et la longueur des tuyaux influe également sur le temps de pompage.
+
+Tous les véhicules de type vanilla sont pris en charge (et certains ont des modifications supplémentaires), pour une liste complète, veuillez consulter le manuel ci-dessous.
+Pour plus d'informations, veuillez lire <a href="https://github.com/stijnwop/manureSystem/blob/master/README.md">le manuel sur mon GitHub</a>.
+
+Un grand merci à VertexDezign et bm-modding pour avoir fourni des fonctionnalités géniales !
+Un grand merci à JoPi pour sa contribution au travail sur le scénario !
+
+Tuyau à lisier:
+- Prix: €150
+
+Tuyau à fertilisant:
+- Prix: €300
+
+Changelog 1.2.0.0:
+- Fixed game crash on exit if there is still a fill arm connected to a dock
+- Fixed pumping from target, if docking station is used
+- Fixed contracting farms not being able to pump from/to production points
+- Added support for sandbox production points and "PlaceableExtendedProductionPoint"
+- Added support for vanilla unloading/loading when AI is active
+- Fixed lua error when trying to sell pallets
+- Updated translations
+
+Changelog 1.1.0.0:
+- Fixed bug with visible movement input action of player
+- Fixed connector position of PnH tank open 25m
+- Added support for Premium Expansion
+- Improved mod compatibility
+- Updated translations
+]]>
+        </fr>
+    </description>
+    <iconFilename>icon_manureSystem.png</iconFilename>
+    <multiplayer supported="true"/>
+
+    <extraSourceFiles>
+        <sourceFile filename="src/main.lua"/>
+    </extraSourceFiles>
+
+    <placeableSpecializations>
+        <specialization name="manureSystemPlaceableBase" className="ManureSystemPlaceableBase" filename="src/placeables/specializations/ManureSystemPlaceableBase.lua"/>
+        <specialization name="manureSystemPlaceableConnector" className="ManureSystemPlaceableConnector" filename="src/placeables/specializations/ManureSystemPlaceableConnector.lua"/>
+        <specialization name="manureSystemPlaceableFillArmReceiver" className="ManureSystemPlaceableFillArmReceiver" filename="src/placeables/specializations/ManureSystemPlaceableFillArmReceiver.lua"/>
+        <specialization name="manureSystemPlaceableMixers" className="ManureSystemPlaceableMixers" filename="src/placeables/specializations/ManureSystemPlaceableMixers.lua"/>
+
+        <specialization name="manureSystemPlaceableSilo" className="ManureSystemPlaceableSilo" filename="src/placeables/specializations/ManureSystemPlaceableSilo.lua"/>
+        <specialization name="manureSystemPlaceableSiloExtension" className="ManureSystemPlaceableSiloExtension" filename="src/placeables/specializations/ManureSystemPlaceableSiloExtension.lua"/>
+        <specialization name="manureSystemPlaceableHusbandry" className="ManureSystemPlaceableHusbandry" filename="src/placeables/specializations/ManureSystemPlaceableHusbandry.lua"/>
+        <specialization name="manureSystemPlaceableProductionPoint" className="ManureSystemPlaceableProductionPoint" filename="src/placeables/specializations/ManureSystemPlaceableProductionPoint.lua"/>
+        <specialization name="manureSystemPlaceableSellingStation" className="ManureSystemPlaceableSellingStation" filename="src/placeables/specializations/ManureSystemPlaceableSellingStation.lua"/>
+        <specialization name="manureSystemPlaceableBuyingStation" className="ManureSystemPlaceableBuyingStation" filename="src/placeables/specializations/ManureSystemPlaceableBuyingStation.lua"/>
+    </placeableSpecializations>
+
+    <specializations>
+        <specialization name="hose" className="Hose" filename="src/hose/Hose.lua"/>
+        <specialization name="manureSystemPumpMotor" className="ManureSystemPumpMotor" filename="src/vehicles/specializations/ManureSystemPumpMotor.lua"/>
+        <specialization name="manureSystemConnector" className="ManureSystemConnector" filename="src/vehicles/specializations/ManureSystemConnector.lua"/>
+        <specialization name="manureSystemFillArm" className="ManureSystemFillArm" filename="src/vehicles/specializations/ManureSystemFillArm.lua"/>
+        <specialization name="manureSystemFillArmReceiver" className="ManureSystemFillArmReceiver" filename="src/vehicles/specializations/ManureSystemFillArmReceiver.lua"/>
+        <specialization name="manureSystemMixer" className="ManureSystemMixer" filename="src/vehicles/specializations/ManureSystemMixer.lua"/>
+    </specializations>
+
+    <vehicleTypes>
+        <type name="flexibleHose" className="Vehicle" filename="$dataS/scripts/vehicles/Vehicle.lua">
+            <specialization name="baseMaterial"/>
+            <specialization name="animatedVehicle"/>
+            <specialization name="washable"/>
+            <specialization name="wearable"/>
+            <specialization name="foliageBending"/>
+            <specialization name="tensionBeltObject"/>
+            <specialization name="hose"/>
+        </type>
+    </vehicleTypes>
+
+    <storeItems>
+        <storeItem xmlFilename="resources/hoses/slurry/slurryHose.xml"/>
+        <storeItem xmlFilename="resources/hoses/slurry/slurryHose5m.xml"/>
+        <storeItem xmlFilename="resources/hoses/fertilizer/fertilizerHose.xml"/>
+    </storeItems>
+
+    <l10n filenamePrefix="i18n/locale"/>
+
+    <actions>
+        <action name="MS_ATTACH_HOSE" axisType="HALF"/>
+        <action name="MS_DETACH_HOSE" axisType="HALF"/>
+        <action name="MS_TOGGLE_FLOW" axisType="HALF"/>
+        <action name="MS_ACTIVATE_PUMP" axisType="HALF"/>
+        <action name="MS_TOGGLE_PUMP_DIRECTION" axisType="HALF"/>
+    </actions>
+
+    <inputBinding>
+        <actionBinding action="MS_ACTIVATE_PUMP">
+            <binding device="KB_MOUSE_DEFAULT" input="KEY_r"/>
+            <binding device="GAMEPAD_DEFAULT" input="BUTTON_11"/>
+        </actionBinding>
+        <actionBinding action="MS_TOGGLE_PUMP_DIRECTION">
+            <binding device="KB_MOUSE_DEFAULT" input="KEY_z"/>
+            <binding device="GAMEPAD_DEFAULT" input="BUTTON_5 BUTTON_17"/>
+        </actionBinding>
+        <actionBinding action="MS_ATTACH_HOSE">
+            <binding device="KB_MOUSE_DEFAULT" input="MOUSE_BUTTON_RIGHT"/>
+            <binding device="GAMEPAD_DEFAULT" input="BUTTON_1"/>
+        </actionBinding>
+        <actionBinding action="MS_DETACH_HOSE">
+            <binding device="KB_MOUSE_DEFAULT" input="MOUSE_BUTTON_LEFT"/>
+            <binding device="GAMEPAD_DEFAULT" input="BUTTON_3"/>
+        </actionBinding>
+        <actionBinding action="MS_TOGGLE_FLOW">
+            <binding device="KB_MOUSE_DEFAULT" input="MOUSE_BUTTON_RIGHT"/>
+            <binding device="GAMEPAD_DEFAULT" input="BUTTON_1"/>
+        </actionBinding>
+    </inputBinding>
+</modDesc>
