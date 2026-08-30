@@ -103,14 +103,21 @@ local function generateSpecObject(data)
     return spec
 end
 
-local function injectRegistry(xmlFilename, orgEntry, data)
+local function injectRegistry(xmlFilename, orgEntry, typeName, data)
     local generatedSpec
     local doInject = orgEntry ~= nil
-    local stringParts = string.split(data.typeName, ".")
 
-    if #stringParts ~= 1 then
-        local typeModName = unpack(stringParts)
-        doInject = doInject and not (g_specializationManager:getSpecializationObjectByName(typeModName .. ".manureSystemRegistry") ~= nil)
+    -- FS25: the load data no longer reliably carries a typeName (it is nil during
+    -- shop preview / placement mouse reloads), which crashed string.split once per
+    -- mouse event and stopped the vehicle from loading. Only split when we actually
+    -- have a string; otherwise keep whatever doInject already resolved to.
+    if doInject and type(typeName) == "string" then
+        local stringParts = string.split(typeName, ".")
+
+        if #stringParts ~= 1 then
+            local typeModName = unpack(stringParts)
+            doInject = doInject and not (g_specializationManager:getSpecializationObjectByName(typeModName .. ".manureSystemRegistry") ~= nil)
+        end
     end
 
     if doInject then
@@ -150,6 +157,18 @@ local function getInsertionFilename(self, data)
     return nil
 end
 
+-- FS25: resolve the vehicle/placeable type name tolerantly. The load data may not
+-- carry typeName anymore, so fall back to the instance's own typeName.
+local function getInsertionTypeName(self, data)
+    if data ~= nil and data.typeName ~= nil then
+        return data.typeName
+    end
+    if self ~= nil and self.typeName ~= nil then
+        return self.typeName
+    end
+    return nil
+end
+
 local function vehicleLoad(self, superFunc, data, ...)
     local filename = getInsertionFilename(self, data)
     if filename == nil then
@@ -163,8 +182,9 @@ local function vehicleLoad(self, superFunc, data, ...)
         return superFunc(self, data, ...)
     end
 
-    local orgEntry = g_vehicleTypeManager:getTypeByName(data.typeName)
-    local isInjected, registrySpec = injectRegistry(xmlFilename, orgEntry, data)
+    local typeName = getInsertionTypeName(self, data)
+    local orgEntry = typeName ~= nil and g_vehicleTypeManager:getTypeByName(typeName) or nil
+    local isInjected, registrySpec = injectRegistry(xmlFilename, orgEntry, typeName, data)
 
     local loadingState = superFunc(self, data, ...)
     if isInjected then
@@ -189,8 +209,9 @@ local function placeableLoad(self, superFunc, data, ...)
         return superFunc(self, data, ...)
     end
 
-    local orgEntry = g_placeableTypeManager:getTypeByName(data.typeName)
-    local isInjected, registrySpec = injectRegistry(xmlFilename, orgEntry, data)
+    local typeName = getInsertionTypeName(self, data)
+    local orgEntry = typeName ~= nil and g_placeableTypeManager:getTypeByName(typeName) or nil
+    local isInjected, registrySpec = injectRegistry(xmlFilename, orgEntry, typeName, data)
 
     local loadingState = superFunc(self, data, ...)
     if isInjected then
