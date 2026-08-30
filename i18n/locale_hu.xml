@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<l10n>
+    <translationContributors>Celusendon</translationContributors>
+    <locale>hu</locale>
+    <texts>
+        <text name="input_MS_ATTACH_HOSE" text="Cső csatlakoztatása"/>
+        <text name="input_MS_DETACH_HOSE" text="Cső leválasztása"/>
+        <text name="input_MS_TOGGLE_FLOW" text="Tolózár kezelése"/>
+        <text name="input_MS_ACTIVATE_PUMP" text="Szivattyú be/kikapcsolása"/>
+        <text name="input_MS_TOGGLE_PUMP_DIRECTION" text="Szivattyúzás irányának változtatása"/>
+        <text name="action_storeHose" text="Cső tárolása"/>
+        <text name="action_toggleManureFlow" text="Tolózár %s"/>
+        <text name="action_toggleManureFlowStateOpen" text="nyitása"/>
+        <text name="action_toggleManureFlowStateClose" text="zárása"/>
+        <text name="action_activatePump" text="Szivattyú bekapcsolása: %s"/>
+        <text name="action_deactivatePump" text="Szivattyú kikapcsolása: %s"/>
+        <text name="action_directionOut" text="Szivattyúzás iránya: lefejtés"/>
+        <text name="action_directionIn" text="Szivattyúzás iránya: feltöltés"/>
+        <text name="action_directionLeftRight" text="Szivattyúzás iránya: balról jobbra"/>
+        <text name="action_directionRightLeft" text="Szivattyúzás iránya: jobbról balra"/>
+        <text name="info_directionOut" text="lefejtés"/>
+        <text name="info_directionIn" text="feltöltés"/>
+        <text name="warning_pumpDirectionLimited" text="Ez a szivattyú csak ebben a módban képes üzemelni: %s"/>
+        <text name="warning_limitedPumpDirectionsNotCompatible" text="A csatlakoztatott szivattyúk korlátozott működési iránya nem kompatibilis!"/>
+        <text name="warning_objectEmpty" text="Ez a tartály üres, nincs mit szivattyúzni!"/>
+        <text name="warning_objectFull" text="A cél tartály tele van!"/>
+        <text name="warning_invalidFillType" text="Ez a folyadék típus nem támogatott!"/>
+        <text name="warning_checkManureFlow" text="Ellenőrizd a tolózár állapotát itt: %s"/>
+        <text name="configuration_manureSystemFillArm" text="Töltőfej"/>
+        <text name="warning_parkingPlaceTooSmall" text="Ez a tároló rekesz túl kicsi a(z) %sm-es csőhöz!"/>
+        <text name="warning_hoseRangeRestriction" text="A cső hossza miatt nem tudsz messzebbre menni!"/>
+        <text name="warning_hoseRangeRestrictionLength" text="Nem vagy te szuperhős!"/>
+        <text name="action_enableMixer" text="Keverő bekapcsolása"/>
+        <text name="action_disableMixer" text="Keverő kikapcsolása"/>
+        <text name="info_title_thickness" text="Sűrűség"/>
+        <text name="typeDesc_hose" text="Cső"/>
+        <text name="shopItem_slurryHose" text="Trágyalé cső"/>
+        <text name="shopItem_fertilizerHose" text="Vegyszeres cső"/>
+        <text name="function_hose" text="A csővel két tartály között lehet folyadékokat átszivattyúzni. Egyes típusoknál lehetőséged van egymáshoz kapcsolni őket, ha nagyobb távolságot kell áthidalni."/>
+        <text name="configuration_hose" text="Cső típus megváltoztatása."/>
+        <text name="configuration_valueExtend" text="Hosszabbítócső"/>
+        <text name="global_configuration_refillable" text="Újratölthető"/>
+    </texts>
+</l10n>
