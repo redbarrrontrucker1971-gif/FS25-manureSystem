@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<i3D name="slurryHose.i3d" version="1.6" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://i3d.giants.ch/schema/i3d-1.6.xsd">
+  <Asset>
+    <Export program="GIANTS Editor 64bit" version="10.0.13"/>
+  </Asset>
+
+  <Files>
+    <File fileId="9" filename="../coupling_gloss.png"/>
+    <File fileId="8" filename="../coupling_normal.png"/>
+    <File fileId="3" filename="../hose_gloss.png"/>
+    <File fileId="2" filename="../hose_normal.png"/>
+    <File fileId="4" filename="../../shaders/vehicleShader.xml"/>
+  </Files>
+
+
+  <Materials>
+    <Material name="coupling_mat" materialId="343" diffuseColor="0.501961 0.501961 0.501961 1" customShaderId="4" customShaderVariation="colorMask">
+      <Normalmap fileId="8"/>
+      <Glossmap fileId="9"/>
+    </Material>
+    <Material name="hose_mat" materialId="342" diffuseColor="0.501961 0.501961 0.501961 1" customShaderId="4" customShaderVariation="localCatmullRom_colorMask_uvScale">
+      <Normalmap fileId="2"/>
+      <Glossmap fileId="3"/>
+      <CustomParameter name="lengthAndDiameter" value="3 1 0 0"/>
+    </Material>
+    <Material name="lambert1" materialId="341" diffuseColor="0.501961 0.501961 0.501961 1">
+    </Material>
+  </Materials>
+
+
+  <Shapes externalShapesFile="slurryHose.i3d.shapes">
+  </Shapes>
+
+  <Scene>
+    <Shape name="hose_main_component1" shapeId="1" dynamic="true" compound="true" collisionFilterGroup="0x10004" collisionFilterMask="0xfe3ffb83" clipDistance="300" nodeId="353" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="341">
+      <Shape name="hose" translation="0 0 -0.07" rotation="0 180 0" shapeId="2" clipDistance="300" nodeId="354" castsShadows="true" receiveShadows="true" materialIds="342"/>
+      <Shape name="coupling_normal_start" rotation="0 180 0" shapeId="3" clipDistance="300" nodeId="355" castsShadows="true" receiveShadows="true" materialIds="343"/>
+      <Shape name="coupling_extend_start" translation="-0 0.016793 -0.077732" shapeId="4" clipDistance="300" nodeId="356" castsShadows="true" receiveShadows="true" skinBindNodeIds="356 357 358 359" materialIds="343">
+        <TransformGroup name="top_hook" translation="0 0.097082 0.046996" clipDistance="300" nodeId="357"/>
+        <TransformGroup name="bottom_lever" translation="0 -0.133183 0.044432" clipDistance="300" nodeId="358">
+          <TransformGroup name="bottom_hook" clipDistance="300" nodeId="359"/>
+        </TransformGroup>
+      </Shape>
+      <TransformGroup name="grabNode1" clipDistance="300" nodeId="360"/>
+      <TransformGroup name="componentJoint1" translation="0 0 -1.125" clipDistance="300" nodeId="361"/>
+      <TransformGroup name="raycastNode1" clipDistance="300" nodeId="362"/>
+    </Shape>
+    <Shape name="hose_main_component2" translation="0 -0 -1.125" shapeId="5" dynamic="true" compound="true" collisionFilterGroup="0x10004" collisionFilterMask="0xfe3ffb83" clipDistance="300" nodeId="363" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="341">
+      <TransformGroup name="componentJoint2" translation="-0 0 -0.75" clipDistance="300" nodeId="364"/>
+    </Shape>
+    <Shape name="hose_main_component3" translation="0 -0 -1.875" shapeId="5" dynamic="true" compound="true" collisionFilterGroup="0x10004" collisionFilterMask="0xfe3ffb83" clipDistance="300" nodeId="365" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="341"/>
+    <Shape name="hose_main_component4" translation="0 0 -3.1" shapeId="6" dynamic="true" compound="true" collisionFilterGroup="0x10004" collisionFilterMask="0xfe3ffb83" clipDistance="300" nodeId="366" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="341">
+      <TransformGroup name="grabNode2" rotation="0 180 0" clipDistance="300" nodeId="367"/>
+      <Shape name="coupling_normal_end" shapeId="3" clipDistance="300" nodeId="368" castsShadows="true" receiveShadows="true" materialIds="343"/>
+      <TransformGroup name="componentJoint3" translation="0 0 1.225" clipDistance="300" nodeId="369"/>
+      <TransformGroup name="raycastNode2" clipDistance="300" nodeId="370"/>
+      <TransformGroup name="target" translation="0 0 0.03" rotation="0 180 0" clipDistance="300" nodeId="371"/>
+    </Shape>
+  </Scene>
+
+</i3D>

@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<vehicle type="flexibleHose">
+    <annotation>Copyright (C) GIANTS Software GmbH, All Rights Reserved.</annotation>
+
+    <storeData>
+        <name>$l10n_shopItem_fertilizerHose</name>
+        <functions>
+            <function>$l10n_function_hose</function>
+        </functions>
+        <specs>
+            <workingWidth>5</workingWidth>
+            <fillTypeCategories>sprayer</fillTypeCategories>
+        </specs>
+        <image>resources/hoses/fertilizer/store_fertilizerHose.png</image>
+        <price>300</price>
+        <lifetime>600</lifetime>
+        <rotation>0</rotation>
+        <shopTranslationOffset>0 0.25 0</shopTranslationOffset>
+        <brand>LIZARD</brand>
+        <category>misc</category>
+    </storeData>
+
+    <base>
+        <supportsPickUp>true</supportsPickUp>
+        <typeDesc>$l10n_typeDesc_hose</typeDesc>
+        <filename>resources/hoses/fertilizer/fertilizerHose.i3d</filename>
+        <size width="0.2" length="5"/>
+        <components>
+            <component centerOfMass="0 0 -0.25" solverIterationCount="20" mass="5"/>
+            <component centerOfMass="0 0 0" solverIterationCount="20" mass="5"/>
+            <component centerOfMass="0 0 0" solverIterationCount="20" mass="5"/>
+            <component centerOfMass="0 0 0.25" solverIterationCount="20" mass="5"/>
+
+            <joint component1="1" component2="2" node="componentJoint1" rotLimit="44 44 44"
+                   rotMinLimit="-44 -44 -44"
+                   transLimit="0 0 0" rotDriveVelocity="0 0 0"/>
+            <joint component1="2" component2="3" node="componentJoint2" rotLimit="44 44 44"
+                   rotMinLimit="-44 -44 -44"
+                   transLimit="0 0 0" rotDriveVelocity="0 0 0"/>
+            <joint component1="4" component2="3" node="componentJoint3" rotLimit="44 44 44"
+                   rotMinLimit="-44 -44 -44"
+                   transLimit="0 0 0" rotDriveVelocity="0 0 0"/>
+        </components>
+        <schemaOverlay attacherJointPosition="0 0" name="IMPLEMENT"/>
+    </base>
+
+    <wearable wearDuration="480" workMultiplier="5" fieldMultiplier="2"/>
+    <washable dirtDuration="90" washDuration="1" workMultiplier="3" fieldMultiplier="2"/>
+
+    <hose type="couplingFertilizer" length="5" mesh="fertilizer_hose" targetNode="targetNode" centerNode1="1>" centerNode2="2>" playerMaxHoseLength="15">
+        <manureSystemHoseConfigurations>
+            <manureSystemHoseConfiguration name="$l10n_configuration_valueDefault" price="10">
+                <grabNodes>
+                    <grabNode node="grabNode1" raycastNode="grabNode1" componentIndex="1" componentJointIndex="1">
+                        <visuals visualNode="fertilizer_coupling_camplock_1" hoseTargetNode="fertilizer_hose" updateHoseTargetRotation="true"/>
+                    </grabNode>
+                    <grabNode node="grabNode2" raycastNode="grabNode2" componentIndex="4" componentJointIndex="3">
+                        <visuals visualNode="fertilizer_coupling_camplock_2" hoseTargetNode="targetNode"/>
+                    </grabNode>
+                </grabNodes>
+            </manureSystemHoseConfiguration>
+        </manureSystemHoseConfigurations>
+    </hose>
+
+    <foliageBending>
+        <bendingNode minX="-1.35" maxX="1.35" minZ="-3.5" maxZ="4.1" yOffset="0.2"/>
+    </foliageBending>
+
+    <tensionBeltObject>
+        <meshNodes>
+            <meshNode node="hose_main_component1"/>
+            <meshNode node="hose_main_component2"/>
+            <meshNode node="hose_main_component3"/>
+            <meshNode node="hose_main_component4"/>
+        </meshNodes>
+    </tensionBeltObject>
+
+    <baseMaterial>
+        <material name="hose_mat" baseNode="fertilizer_hose">
+            <shaderParameter name="colorMat1" value="0.004 0.061 0.117 1.0"/>
+        </material>
+    </baseMaterial>
+
+    <baseMaterialConfigurations price="3000" useDefaultColors="false" defaultColorIndex="0">
+        <baseMaterialConfiguration color="0.004 0.061 0.117 1.0" name="$l10n_ui_colorBlue"/><!-- blue -->
+        <baseMaterialConfiguration color="0.1 0.025 0.005 1.0" name="$l10n_ui_colorBrown"/><!-- brown -->
+        <baseMaterialConfiguration color="0.013 0.013 0.013 1.0" name="$l10n_ui_colorBlack"/><!-- black -->
+        <baseMaterialConfiguration color="0.04 0.175 0.105 1.0" name="$l10n_ui_colorGreen"/><!-- green -->
+        <baseMaterialConfiguration color="0.19 0.19 0.19 1.0" name="$l10n_ui_colorGrey"/> <!-- grey -->
+        <material name="hose_mat" shaderParameter="colorMat1"/>
+    </baseMaterialConfigurations>
+
+    <i3dMappings>
+        <i3dMapping id="hose_main_component1" node="0>" />
+        <i3dMapping id="fertilizer_coupling_camplock_1" node="0>0" />
+        <i3dMapping id="fertilizer_coupling_1" node="0>1" />
+        <i3dMapping id="fertilizer_hose" node="0>2" />
+        <i3dMapping id="grabNode1" node="0>3" />
+        <i3dMapping id="baseNode" node="0>4" />
+        <i3dMapping id="componentJoint1" node="0>5" />
+        <i3dMapping id="hose_main_component2" node="1>" />
+        <i3dMapping id="componentJoint2" node="1>0" />
+        <i3dMapping id="hose_main_component3" node="2>" />
+        <i3dMapping id="componentJoint3" node="2>0" />
+        <i3dMapping id="hose_main_component4" node="3>" />
+        <i3dMapping id="grabNode2" node="3>0" />
+        <i3dMapping id="targetNode" node="3>1" />
+        <i3dMapping id="fertilizer_coupling_camplock_2" node="3>2" />
+        <i3dMapping id="fertilizer_coupling_2" node="3>3" />
+    </i3dMappings>
+</vehicle>

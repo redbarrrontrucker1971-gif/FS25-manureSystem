@@ -1,0 +1,129 @@
+<data>
+    <vehicle xml="data/objects/pallets/liquidTank/fertilizerTank.xml" reloadStoreItem="true">
+        <attributes>
+            <entry key="vehicle.fillUnit.fillUnitConfigurations#title" value="$l10n_configuration_refillable"/>
+            <entry key="vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration(0)#name" value="$l10n_configuration_valueNo"/>
+            <entry key="vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration(1)#name" value="$l10n_configuration_valueYes"/>
+
+            <entry key="vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration(1).fillUnits#removeVehicleIfEmpty" type="bool" value="false"/>
+            <entry key="vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration(1).fillUnits.fillUnit(0)#fillTypes" value="LIQUIDFERTILIZER"/>
+            <entry key="vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration(1).fillUnits.fillUnit(0)#startFillType" value="LIQUIDFERTILIZER"/>
+            <entry key="vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration(1).fillUnits.fillUnit(0)#capacity" value="2000"/>
+            <entry key="vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration(1).fillUnits.fillUnit(0)#startFillLevel" value="2000"/>
+            <entry key="vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration(1).fillUnits.fillUnit(0)#ignoreFillLimit" value="true"/>
+            <entry key="vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration(1).fillUnits.fillUnit(0)#unitTextOverride" value="$l10n_unit_literShort"/>
+            <entry key="vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration(1).fillUnits.fillUnit(0).fillRootNode#node" value="0>"/>
+        </attributes>
+
+        <manureSystem>
+            <entry type="bool" key="#hasConnectors" value="true"/>
+        </manureSystem>
+
+        <manureSystemConnectors>
+            <connector>
+                <entry type="string" key="#type" value="COUPLINGFERTILIZER"/>
+                <entry type="bool" key=".sharedSet#createNode" value="true"/>
+                <entry type="string" key=".sharedSet#position" value="0 0.19 -0.52"/>
+                <entry type="string" key=".sharedSet#rotation" value="0 90 0"/>
+                <entry type="int" key=".sharedSet#id" value="3"/>
+                <entry type="string" key=".sharedSet.connector#type" value="CONNECTOR_1"/>
+            </connector>
+        </manureSystemConnectors>
+    </vehicle>
+
+    <vehicle xml="data/objects/pallets/liquidTank/fertilizerTankHelm.xml" reloadStoreItem="true">
+        <attributes>
+            <entry key="vehicle.fillUnit.fillUnitConfigurations#title" value="$l10n_configuration_refillable"/>
+            <entry key="vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration(0)#name" value="$l10n_configuration_valueNo"/>
+            <entry key="vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration(1)#name" value="$l10n_configuration_valueYes"/>
+
+            <entry key="vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration(1).fillUnits#removeVehicleIfEmpty" type="bool" value="false"/>
+            <entry key="vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration(1).fillUnits.fillUnit(0)#fillTypes" value="LIQUIDFERTILIZER"/>
+            <entry key="vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration(1).fillUnits.fillUnit(0)#startFillType" value="LIQUIDFERTILIZER"/>
+            <entry key="vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration(1).fillUnits.fillUnit(0)#capacity" value="2000"/>
+            <entry key="vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration(1).fillUnits.fillUnit(0)#startFillLevel" value="2000"/>
+            <entry key="vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration(1).fillUnits.fillUnit(0)#ignoreFillLimit" value="true"/>
+            <entry key="vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration(1).fillUnits.fillUnit(0)#unitTextOverride" value="$l10n_unit_literShort"/>
+            <entry key="vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration(1).fillUnits.fillUnit(0).fillRootNode#node" value="0>"/>
+        </attributes>
+
+        <manureSystem>
+            <entry type="bool" key="#hasConnectors" value="true"/>
+        </manureSystem>
+
+        <manureSystemConnectors>
+            <connector>
+                <entry type="string" key="#type" value="COUPLINGFERTILIZER"/>
+                <entry type="bool" key=".sharedSet#createNode" value="true"/>
+                <entry type="string" key=".sharedSet#position" value="0 0.19 -0.52"/>
+                <entry type="string" key=".sharedSet#rotation" value="0 90 0"/>
+                <entry type="int" key=".sharedSet#id" value="3"/>
+                <entry type="string" key=".sharedSet.connector#type" value="CONNECTOR_1"/>
+            </connector>
+        </manureSystemConnectors>
+    </vehicle>
+
+    <vehicle xml="data/objects/pallets/liquidTank/herbicideTank.xml" reloadStoreItem="true">
+        <attributes>
+            <entry key="vehicle.fillUnit.fillUnitConfigurations#title" value="$l10n_configuration_refillable"/>
+            <entry key="vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration(0)#name" value="$l10n_configuration_valueNo"/>
+            <entry key="vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration(1)#name" value="$l10n_configuration_valueYes"/>
+
+            <entry key="vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration(1).fillUnits#removeVehicleIfEmpty" type="bool" value="false"/>
+            <entry key="vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration(1).fillUnits.fillUnit(0)#fillTypes" value="HERBICIDE"/>
+            <entry key="vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration(1).fillUnits.fillUnit(0)#startFillType" value="HERBICIDE"/>
+            <entry key="vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration(1).fillUnits.fillUnit(0)#capacity" value="2000"/>
+            <entry key="vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration(1).fillUnits.fillUnit(0)#startFillLevel" value="2000"/>
+            <entry key="vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration(1).fillUnits.fillUnit(0)#ignoreFillLimit" value="true"/>
+            <entry key="vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration(1).fillUnits.fillUnit(0)#unitTextOverride" value="$l10n_unit_literShort"/>
+            <entry key="vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration(1).fillUnits.fillUnit(0).fillRootNode#node" value="0>"/>
+        </attributes>
+
+        <manureSystem>
+            <entry type="bool" key="#hasConnectors" value="true"/>
+        </manureSystem>
+
+        <manureSystemConnectors>
+            <connector>
+                <entry type="string" key="#type" value="COUPLINGFERTILIZER"/>
+                <entry type="bool" key=".sharedSet#createNode" value="true"/>
+                <entry type="string" key=".sharedSet#position" value="0 0.19 -0.52"/>
+                <entry type="string" key=".sharedSet#rotation" value="0 90 0"/>
+                <entry type="int" key=".sharedSet#id" value="3"/>
+                <entry type="string" key=".sharedSet.connector#type" value="CONNECTOR_1"/>
+            </connector>
+        </manureSystemConnectors>
+    </vehicle>
+
+    <vehicle xml="data/objects/pallets/liquidTank/herbicideTankHelm.xml" reloadStoreItem="true">
+        <attributes>
+            <entry key="vehicle.fillUnit.fillUnitConfigurations#title" value="$l10n_configuration_refillable"/>
+            <entry key="vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration(0)#name" value="$l10n_configuration_valueNo"/>
+            <entry key="vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration(1)#name" value="$l10n_configuration_valueYes"/>
+
+            <entry key="vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration(1).fillUnits#removeVehicleIfEmpty" type="bool" value="false"/>
+            <entry key="vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration(1).fillUnits.fillUnit(0)#fillTypes" value="HERBICIDE"/>
+            <entry key="vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration(1).fillUnits.fillUnit(0)#startFillType" value="HERBICIDE"/>
+            <entry key="vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration(1).fillUnits.fillUnit(0)#capacity" value="2000"/>
+            <entry key="vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration(1).fillUnits.fillUnit(0)#startFillLevel" value="2000"/>
+            <entry key="vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration(1).fillUnits.fillUnit(0)#ignoreFillLimit" value="true"/>
+            <entry key="vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration(1).fillUnits.fillUnit(0)#unitTextOverride" value="$l10n_unit_literShort"/>
+            <entry key="vehicle.fillUnit.fillUnitConfigurations.fillUnitConfiguration(1).fillUnits.fillUnit(0).fillRootNode#node" value="0>"/>
+        </attributes>
+
+        <manureSystem>
+            <entry type="bool" key="#hasConnectors" value="true"/>
+        </manureSystem>
+
+        <manureSystemConnectors>
+            <connector>
+                <entry type="string" key="#type" value="COUPLINGFERTILIZER"/>
+                <entry type="bool" key=".sharedSet#createNode" value="true"/>
+                <entry type="string" key=".sharedSet#position" value="0 0.19 -0.52"/>
+                <entry type="string" key=".sharedSet#rotation" value="0 90 0"/>
+                <entry type="int" key=".sharedSet#id" value="3"/>
+                <entry type="string" key=".sharedSet.connector#type" value="CONNECTOR_1"/>
+            </connector>
+        </manureSystemConnectors>
+    </vehicle>
+</data>

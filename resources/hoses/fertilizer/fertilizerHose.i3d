@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<i3D name="fertilizerHose.i3d" version="1.6" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://i3d.giants.ch/schema/i3d-1.6.xsd">
+  <Asset>
+    <Export program="GIANTS Editor 64bit" version="10.0.13"/>
+  </Asset>
+
+  <Files>
+    <File fileId="3" filename="../coupling_gloss.png"/>
+    <File fileId="2" filename="../coupling_normal.png"/>
+    <File fileId="9" filename="../hose_gloss.png"/>
+    <File fileId="8" filename="../hose_normal.png"/>
+    <File fileId="4" filename="../../shaders/vehicleShader.xml"/>
+  </Files>
+
+
+  <Materials>
+    <Material name="coupling_mat" materialId="292" diffuseColor="0.501961 0.501961 0.501961 1" customShaderId="4" customShaderVariation="colorMask">
+      <Normalmap fileId="2"/>
+      <Glossmap fileId="3"/>
+      <CustomParameter name="colorMat1" value="0.05 0.05 0.05 1"/>
+    </Material>
+    <Material name="hose_mat" materialId="291" diffuseColor="0.501961 0.501961 0.501961 1" customShaderId="4" customShaderVariation="localCatmullRom_colorMask_uvScale">
+      <Normalmap fileId="8"/>
+      <Glossmap fileId="9"/>
+      <CustomParameter name="uvScale" value="1 1.5 0 0"/>
+      <CustomParameter name="lengthAndDiameter" value="5 1 0 0"/>
+    </Material>
+    <Material name="lambert1" materialId="290" diffuseColor="0.501961 0.501961 0.501961 1">
+    </Material>
+  </Materials>
+
+
+  <Shapes externalShapesFile="fertilizerHose.i3d.shapes">
+  </Shapes>
+
+  <Scene>
+    <Shape name="hose_main_component1" shapeId="1" dynamic="true" compound="true" collisionFilterGroup="0x10004" collisionFilterMask="0xfe3ffb83" clipDistance="300" nodeId="304" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="290">
+      <Shape name="fertilizer_coupling_camplock_1" rotation="0 180 0" shapeId="2" clipDistance="300" nodeId="305" castsShadows="true" receiveShadows="true" materialIds="292"/>
+      <Shape name="fertilizer_coupling_1" rotation="0 180 0" shapeId="3" visibility="false" clipDistance="300" nodeId="306" castsShadows="true" receiveShadows="true" materialIds="292"/>
+      <Shape name="fertilizer_hose" translation="0 0 -0.242" rotation="0 180 0" shapeId="4" clipDistance="300" nodeId="307" castsShadows="true" receiveShadows="true" materialIds="291"/>
+      <TransformGroup name="grabNode1" nodeId="308"/>
+      <TransformGroup name="baseNode" rotation="0 180 0" nodeId="309"/>
+      <TransformGroup name="componentJoint1" translation="0 0 -1.848" nodeId="310"/>
+      <Shape name="pCylinder1" translation="0 -0 -0.064493" shapeId="5" compoundChild="true" collisionFilterGroup="0x2002" collisionFilterMask="0x2002" density="0.001" nodeId="311" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="290"/>
+    </Shape>
+    <Shape name="hose_main_component2" translation="0 0 -1.928" shapeId="6" dynamic="true" compound="true" collisionFilterGroup="0x10004" collisionFilterMask="0xfe3ffb83" clipDistance="300" nodeId="312" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="290">
+      <TransformGroup name="componentJoint2" translation="0 0 -1.548" nodeId="313"/>
+    </Shape>
+    <Shape name="hose_main_component3" translation="0 0 -3.556" shapeId="6" dynamic="true" compound="true" collisionFilterGroup="0x10004" collisionFilterMask="0xfe3ffb83" clipDistance="300" nodeId="314" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="290">
+      <TransformGroup name="componentJoint3" translation="-0 -0 -1.84832" nodeId="315"/>
+    </Shape>
+    <Shape name="hose_main_component4" translation="0 0 -5.48419" shapeId="7" dynamic="true" compound="true" collisionFilterGroup="0x10004" collisionFilterMask="0xfe3ffb83" clipDistance="300" nodeId="316" castsShadows="true" receiveShadows="true" nonRenderable="true" materialIds="290">
+      <TransformGroup name="grabNode2" rotation="0 180 0" nodeId="317"/>
+      <TransformGroup name="targetNode" translation="0 0 0.242" rotation="0 180 0" nodeId="318"/>
+      <Shape name="fertilizer_coupling_camplock_2" shapeId="2" clipDistance="300" nodeId="319" castsShadows="true" receiveShadows="true" materialIds="292"/>
+      <Shape name="fertilizer_coupling_2" shapeId="3" visibility="false" clipDistance="300" nodeId="320" castsShadows="true" receiveShadows="true" materialIds="292"/>
+    </Shape>
+  </Scene>
+
+</i3D>

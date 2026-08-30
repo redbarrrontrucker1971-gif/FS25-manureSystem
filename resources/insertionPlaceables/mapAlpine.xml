@@ -1,0 +1,55 @@
+<data>
+    <placeable xml="data/placeables/mapAlpine/bga/alpsBGA.xml">
+        <attributes>
+            <entry type="float" key="placeable.productionPoint.loadingStation.loadTrigger(0)#fillLitersPerSecond" value="285"/>
+            <entry type="string" key="placeable.productionPoint.loadingStation.loadTrigger(0).effectNode(0)#effectClass" value="PipeEffect"/>
+            <entry type="string" key="placeable.productionPoint.loadingStation.loadTrigger(0).effectNode(0)#node" value="0|0"/>
+            <entry type="string" key="placeable.productionPoint.loadingStation.loadTrigger(0).effectNode(0)#linkNode" value="1>3"/>
+            <entry type="string" key="placeable.productionPoint.loadingStation.loadTrigger(0).effectNode(0)#filename" value="$manureSystemDir$/resources/effects/effect.i3d"/>
+            <entry type="string" key="placeable.productionPoint.loadingStation.loadTrigger(0).effectNode(0)#position" value="0.123 2.45 0.173"/>
+            <entry type="string" key="placeable.productionPoint.loadingStation.loadTrigger(0).effectNode(0)#rotation" value="90 0 0"/>
+            <entry type="string" key="placeable.productionPoint.loadingStation.loadTrigger(0).effectNode(0)#materialType" value="PIPE"/>
+            <entry type="float" key="placeable.productionPoint.loadingStation.loadTrigger(0).effectNode(0)#stopDelay" value="0.5"/>
+            <entry type="float" key="placeable.productionPoint.loadingStation.loadTrigger(0).effectNode(0)#maxBending" value="0.8"/>
+            <entry type="float" key="placeable.productionPoint.loadingStation.loadTrigger(0).effectNode(0)#extraDistance" value="0.2"/>
+            <entry type="string" key="placeable.productionPoint.loadingStation.loadTrigger(0).effectNode(0)#controlPoint" value="4 0 0 0"/>
+        </attributes>
+
+        <manureSystem>
+            <entry type="bool" key="#hasConnectors" value="true"/>
+        </manureSystem>
+
+        <manureSystemConnectors>
+            <connector>
+                <entry type="string" key="#type" value="COUPLING"/>
+                <entry type="string" key="#fillTypes" value="LIQUIDMANURE"/>
+                <entry type="string" key="#limitedPumpDirection" value="IN"/>
+                <entry type="string" key="#componentNode" value="1>10|0"/>
+
+                <entry type="int" key=".sharedSet#id" value="1"/>
+                <entry type="bool" key=".sharedSet#createNode" value="true"/>
+                <entry type="string" key=".sharedSet#linkNode" value="1>"/>
+                <entry type="string" key=".sharedSet#position" value="28.816 0.5 -5.065"/>
+                <entry type="string" key=".sharedSet#rotation" value="0 192.268 0"/>
+                <entry type="string" key=".sharedSet.connector#type" value="CONNECTOR_1"/>
+                <entry type="string" key=".sharedSet.valve#type" value="8INCH_CASTIRON"/>
+                <entry type="string" key=".sharedSet.handle#type" value="PNEUMATIC"/>
+            </connector>
+
+            <connector>
+                <entry type="string" key="#type" value="COUPLING"/>
+                <entry type="string" key="#fillTypes" value="DIGESTATE"/>
+                <entry type="string" key="#componentNode" value="1>10|0"/>
+
+                <entry type="int" key=".sharedSet#id" value="1"/>
+                <entry type="bool" key=".sharedSet#createNode" value="true"/>
+                <entry type="string" key=".sharedSet#linkNode" value="1>"/>
+                <entry type="string" key=".sharedSet#position" value="29.154 0.5 -15.29"/>
+                <entry type="string" key=".sharedSet#rotation" value="0 215 0"/>
+                <entry type="string" key=".sharedSet.connector#type" value="CONNECTOR_1"/>
+                <entry type="string" key=".sharedSet.valve#type" value="8INCH_CASTIRON"/>
+                <entry type="string" key=".sharedSet.handle#type" value="PNEUMATIC"/>
+            </connector>
+        </manureSystemConnectors>
+    </placeable>
+</data>
