@@ -56,7 +56,10 @@ function FillPlaneRayCast:castRay(x, y, z, dx, dy, dz, distance)
 
     self:clear()
 
-    raycastAll(x, y, z, dx, dy, dz, "castCallback", distance, self, self.mask, true)
+    -- FS25: raycastAll reordered its args -- maxDistance is now arg 7 and the
+    -- callback name is arg 8 (FS22 had them swapped). The callback param list
+    -- (hitObjectId, x, y, z, distance, ...) is unchanged.
+    raycastAll(x, y, z, dx, dy, dz, distance, "castCallback", self, self.mask, true)
 
     if g_currentMission.manureSystem.debug then
         local color = self.hitObject ~= nil and FillPlaneRayCast.DEBUG_COLOR_HIT or FillPlaneRayCast.DEBUG_COLOR_MISS

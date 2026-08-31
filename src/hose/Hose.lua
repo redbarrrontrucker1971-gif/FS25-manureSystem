@@ -712,8 +712,18 @@ function Hose:grab(id, player, noEventSend)
 
     if self.isServer then
         local componentNode = self.components[grabNode.componentIndex].node
-        local newCollisionFlag = bitXOR(bitAND(grabNode.componentCollisionMask, CollisionMask.PLAYER_KINEMATIC), grabNode.componentCollisionMask)
-        setCollisionFilterMask(componentNode, newCollisionFlag)
+        -- FS25: CollisionMask.PLAYER_KINEMATIC no longer exists (collision constants
+        -- moved to CollisionFlag; the player is now a CCT capsule). Resolve the
+        -- player collision bit tolerantly and only edit the mask when bit + node +
+        -- mask are all valid; otherwise skip. This edit only stops the carried hose
+        -- brushing the player, and the nil bit was crashing grab on every attach.
+        local playerFlag = (CollisionMask ~= nil and CollisionMask.PLAYER_KINEMATIC)
+            or (CollisionFlag ~= nil and (CollisionFlag.PLAYER_KINEMATIC or CollisionFlag.PLAYER))
+            or nil
+        if playerFlag ~= nil and componentNode ~= nil and grabNode.componentCollisionMask ~= nil then
+            local newCollisionFlag = bitXOR(bitAND(grabNode.componentCollisionMask, playerFlag), grabNode.componentCollisionMask)
+            setCollisionFilterMask(componentNode, newCollisionFlag)
+        end
 
         local desc = {}
 
