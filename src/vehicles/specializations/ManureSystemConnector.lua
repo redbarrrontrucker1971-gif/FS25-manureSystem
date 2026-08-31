@@ -66,11 +66,17 @@ function ManureSystemConnector:onLoad(savegame)
 
     spec.isActive = self.xmlFile:getBool("vehicle.manureSystem#hasConnectors") or false
 
+    if self.configFileName ~= nil and (spec.isActive or self.xmlFile:hasProperty("vehicle.manureSystemConnectors.connector(0)")) then
+        print(("[MS-INSERT-DIAG] connector onLoad: cfg='%s' hasConnectorsFlag=%s hasProp(connector0)=%s"):format(tostring(self.configFileName), tostring(spec.isActive), tostring(self.xmlFile:hasProperty("vehicle.manureSystemConnectors.connector(0)"))))
+    end
+
     if spec.isActive then
         spec.connectors = ManureSystemConnectors.new(self, g_currentMission.manureSystem)
         if not spec.connectors:loadFromVehicleXML(self.xmlFile) then
             spec.connectors:delete()
         end
+
+        print(("[MS-INSERT-DIAG] connector onLoad result: cfg='%s' connectorCount=%s"):format(tostring(self.configFileName), tostring((spec.connectors ~= nil and spec.connectors.connectors ~= nil) and #spec.connectors.connectors or -1)))
     end
 
     if not self:hasConnectors() then

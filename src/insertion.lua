@@ -79,6 +79,8 @@ local function generateSpecObject(data)
             end
         end
 
+        print(("[MS-INSERT-DIAG] onPreLoad FIRED: xml='%s' type='%s' hasProp(connector0)=%s hasProp(hasConnectors)=%s"):format(tostring(data.xml), tostring(self.typeName), tostring(self.xmlFile:hasProperty("vehicle.manureSystemConnectors.connector(0)")), tostring(self.xmlFile:hasProperty("vehicle.manureSystem#hasConnectors"))))
+
         if data.reloadStoreItem then
             local storeItem = g_storeManager:getItemByXMLFilename(self.configFileName)
 
