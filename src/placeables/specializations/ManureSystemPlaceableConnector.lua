@@ -73,6 +73,10 @@ end
 
 ---@return void
 function ManureSystemPlaceableConnector:onLoad(savegame)
+    if ManureSystemApplyInsertion ~= nil then
+        ManureSystemApplyInsertion(self)
+    end
+
     local spec = self.spec_manureSystemPlaceableConnector
 
     spec.isActive = self.xmlFile:getBool("placeable.manureSystem#hasConnectors", false)

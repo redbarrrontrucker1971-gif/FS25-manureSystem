@@ -87,6 +87,10 @@ end
 
 ---@return void
 function ManureSystemPlaceableFillArmReceiver:onLoad(savegame)
+    if ManureSystemApplyInsertion ~= nil then
+        ManureSystemApplyInsertion(self)
+    end
+
     local spec = self.spec_manureSystemPlaceableFillArmReceiver
 
     spec.isActive = self.xmlFile:getBool("placeable.manureSystem#hasFillArmReceiver", false)

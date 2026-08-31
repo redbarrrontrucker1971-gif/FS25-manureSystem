@@ -208,7 +208,8 @@ function ManureSystemApplyInsertion(self)
 
     self.msInsertionApplied = true
 
-    print(("[MS-INSERT-DIAG] applyInsertion: cfg='%s' connector0=%s hasConnectors=%s"):format(tostring(filename), tostring(self.xmlFile:hasProperty("vehicle.manureSystemConnectors.connector(0)")), tostring(self.xmlFile:hasProperty("vehicle.manureSystem#hasConnectors"))))
+    local msPrefix = self.xmlFile:hasProperty("placeable.manureSystem#hasConnectors") and "placeable" or "vehicle"
+    print(("[MS-INSERT-DIAG] applyInsertion: cfg='%s' prefix=%s connector0=%s hasConnectors=%s"):format(tostring(filename), msPrefix, tostring(self.xmlFile:hasProperty(msPrefix .. ".manureSystemConnectors.connector(0)")), tostring(self.xmlFile:hasProperty(msPrefix .. ".manureSystem#hasConnectors"))))
 end
 
 local function vehicleLoad(self, superFunc, data, ...)
