@@ -104,7 +104,7 @@ function ManureSystem:getSavedVehiclesList()
     local savedVehiclesToId = {}
 
     local id = 1
-    for _, vehicle in ipairs(self.mission.vehicles) do
+    for _, vehicle in ipairs(self.mission.vehicleSystem.vehicles) do
         if vehicle.isVehicleSaved then
             savedVehiclesToId[vehicle] = id
             id = id + 1
