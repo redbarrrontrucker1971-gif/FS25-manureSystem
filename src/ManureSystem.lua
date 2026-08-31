@@ -294,7 +294,15 @@ end
 
 ---Return the id for the given object.
 function ManureSystem:getConnectorObjectId(object)
-    return table.findListElementFirstIndex(self.manureSystemConnectors, object)
+    -- FS25 removed the engine's first-index list helper; inline the lookup so this
+    -- depends on no engine utility (this runs on the save path).
+    for index, element in ipairs(self.manureSystemConnectors) do
+        if element == object then
+            return index
+        end
+    end
+
+    return nil
 end
 
 ---Return true when the object exists, false otherwise.
