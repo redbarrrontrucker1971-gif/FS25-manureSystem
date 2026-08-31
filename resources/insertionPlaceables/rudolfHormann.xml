@@ -1,12 +1,12 @@
 <data>
     <placeable xml="data/placeables/rudolfHormann/cowBarnMedium/cowBarnMedium.xml">
         <attributes>
-            <entry type="string" key="placeable.deletedNodes.deletedNode(0)#node" value="0>22|0|9|2"/>
+            <entry type="string" key="placeable.deletedNodes.deletedNode(0)#node" value="0>20|0|0|9|2"/>
 
             <entry type="float" key="placeable.husbandry.loadingStation.loadTrigger(0)#fillLitersPerSecond" value="285"/>
             <entry type="string" key="placeable.husbandry.loadingStation.loadTrigger(0).effectNode(0)#effectClass" value="PipeEffect"/>
             <entry type="string" key="placeable.husbandry.loadingStation.loadTrigger(0).effectNode(0)#node" value="0|0"/>
-            <entry type="string" key="placeable.husbandry.loadingStation.loadTrigger(0).effectNode(0)#linkNode" value="0>22|0|9|1"/>
+            <entry type="string" key="placeable.husbandry.loadingStation.loadTrigger(0).effectNode(0)#linkNode" value="0>20|0|0|9|1"/>
             <entry type="string" key="placeable.husbandry.loadingStation.loadTrigger(0).effectNode(0)#filename" value="$manureSystemDir$/resources/effects/effect.i3d"/>
             <entry type="string" key="placeable.husbandry.loadingStation.loadTrigger(0).effectNode(0)#position" value="2.5 4.79 0"/>
             <entry type="string" key="placeable.husbandry.loadingStation.loadTrigger(0).effectNode(0)#rotation" value="90 0 0"/>
@@ -25,11 +25,11 @@
             <connector>
                 <entry type="string" key="#type" value="COUPLING"/>
                 <entry type="string" key="#fillTypes" value="LIQUIDMANURE"/>
-                <entry type="string" key="#componentNode" value="0>22|0|9"/>
+                <entry type="string" key="#componentNode" value="0>20|0|0|9"/>
 
                 <entry type="int" key=".sharedSet#id" value="2"/>
                 <entry type="bool" key=".sharedSet#createNode" value="true"/>
-                <entry type="string" key=".sharedSet#linkNode" value="0>22|0|9|1"/>
+                <entry type="string" key=".sharedSet#linkNode" value="0>20|0|0|9|1"/>
                 <entry type="string" key=".sharedSet#position" value="0.207 0.338 1"/>
                 <entry type="string" key=".sharedSet#rotation" value="0 0 0"/>
                 <entry type="string" key=".sharedSet.connector#type" value="CONNECTOR_1"/>
