@@ -32,7 +32,8 @@ function HosePlayer.new(isClient, isServer, mission, input)
         and Player.pickUpObject ~= nil and Player.checkObjectInRange ~= nil
 
     if not hasLegacyPlayerApi then
-        print("[ManureSystem] HosePlayer: FS25 player API detected; on-foot hose injections disabled for this build.")
+        print("[ManureSystem] HosePlayer: FS25 player API detected; installing FS25 on-foot hose interaction (build v4).")
+        HosePlayer.installFS25(self)
         return self
     end
 
@@ -331,5 +332,307 @@ function Player.actionEventOnToggleFlow(self, actionName, inputValue, callbackSt
                 end
             end
         end
+    end
+end
+
+
+-- ============================================================================
+-- FS25 on-foot hose interaction (build v4, Ray custom).
+-- The FS25 player is component-based, so the FS22 hooks above do not exist.
+-- Here we rebuild the interaction against the real FS25 API:
+--   * detection  -> player.targeter (PlayerTargeter raycast) + a hose filter
+--   * per-frame  -> appended Player.update
+--   * input      -> appended PlayerInputComponent.registerActionEvents
+--   * grab joint -> player.hands:getKinematicNode() (kinematic helper moved
+--                   from player.model onto the Hands hand tool)
+-- Single-player focused: movement restriction and multiplayer netsync are
+-- intentionally deferred. Everything is nil/pcall guarded so a missing API
+-- logs once and no-ops instead of freezing the game (the v1 failure mode).
+-- ============================================================================
+
+HosePlayer.FS25_TARGET_MAX_DISTANCE = 5.0
+
+function HosePlayer.installFS25(self)
+    Player.update = Utils.appendedFunction(Player.update, HosePlayer.fs25_playerUpdate)
+
+    if PlayerInputComponent ~= nil then
+        PlayerInputComponent.registerActionEvents = Utils.appendedFunction(PlayerInputComponent.registerActionEvents, HosePlayer.fs25_registerActionEvents)
+        PlayerInputComponent.unregisterActionEvents = Utils.appendedFunction(PlayerInputComponent.unregisterActionEvents, HosePlayer.fs25_unregisterActionEvents)
+    else
+        print("[ManureSystem] HosePlayer: FS25 PlayerInputComponent not found; hose action events unavailable.")
+    end
+end
+
+---Targeter filter: keep only hose objects.
+function HosePlayer.fs25_targetFilter(hitNode, x, y, z)
+    if hitNode == nil or g_currentMission == nil then
+        return false
+    end
+    local object = g_currentMission:getNodeObject(hitNode)
+    return object ~= nil and object.isaHose ~= nil and object:isaHose()
+end
+
+function HosePlayer.fs25_registerActionEvents(inputComponent)
+    local player = inputComponent.player
+    if player == nil or not player.isOwner then
+        return
+    end
+
+    player.msHoseActionEvents = {}
+
+    local ok, err = pcall(function()
+        g_inputBinding:beginActionEventsModification(PlayerInputComponent.INPUT_CONTEXT_NAME)
+
+        local function reg(action, callback)
+            local _, eventId = g_inputBinding:registerActionEvent(action, inputComponent, callback, false, true, false, true, nil, true)
+            g_inputBinding:setActionEventActive(eventId, false)
+            g_inputBinding:setActionEventTextVisibility(eventId, false)
+            player.msHoseActionEvents[action] = eventId
+        end
+
+        reg(InputAction.MS_ATTACH_HOSE, HosePlayer.fs25_onAttach)
+        reg(InputAction.MS_DETACH_HOSE, HosePlayer.fs25_onDetach)
+        reg(InputAction.MS_TOGGLE_FLOW, HosePlayer.fs25_onToggleFlow)
+
+        g_inputBinding:endActionEventsModification()
+    end)
+    if not ok then
+        print("[ManureSystem] HosePlayer(FS25): action-event registration error: " .. tostring(err))
+    end
+
+    if player.targeter ~= nil and CollisionFlag ~= nil then
+        pcall(function()
+            local mask = CollisionFlag.VEHICLE + CollisionFlag.DYNAMIC_OBJECT
+            player.targeter:addTargetType(HosePlayer, mask, 0.0, HosePlayer.FS25_TARGET_MAX_DISTANCE)
+            player.targeter:addFilterToTargetType(HosePlayer, HosePlayer.fs25_targetFilter)
+        end)
+    end
+end
+
+function HosePlayer.fs25_unregisterActionEvents(inputComponent)
+    local player = inputComponent.player
+    if player == nil then
+        return
+    end
+    player.msHoseActionEvents = nil
+    if player.targeter ~= nil then
+        pcall(function() player.targeter:removeTargetType(HosePlayer) end)
+    end
+end
+
+function HosePlayer.fs25_setActionActive(player, action, active, text)
+    local events = player.msHoseActionEvents
+    if events == nil then
+        return
+    end
+    local eventId = events[action]
+    if eventId == nil then
+        return
+    end
+    g_inputBinding:setActionEventActive(eventId, active)
+    g_inputBinding:setActionEventTextVisibility(eventId, active)
+    if active and text ~= nil then
+        g_inputBinding:setActionEventText(eventId, text)
+        g_inputBinding:setActionEventTextPriority(eventId, GS_PRIO_HIGH)
+    end
+end
+
+function HosePlayer.fs25_playerUpdate(player, dt)
+    if not player.isOwner or not player.isControlled then
+        return
+    end
+    local ok, err = pcall(HosePlayer.fs25_playerUpdateInternal, player, dt)
+    if not ok and not player.msLoggedUpdateError then
+        player.msLoggedUpdateError = true
+        print("[ManureSystem] HosePlayer(FS25): update error (further errors suppressed): " .. tostring(err))
+    end
+end
+
+function HosePlayer.fs25_playerUpdateInternal(player, dt)
+    -- Clear all hose prompts each frame; re-enable contextually below.
+    HosePlayer.fs25_setActionActive(player, InputAction.MS_ATTACH_HOSE, false)
+    HosePlayer.fs25_setActionActive(player, InputAction.MS_DETACH_HOSE, false)
+    HosePlayer.fs25_setActionActive(player, InputAction.MS_TOGGLE_FLOW, false)
+
+    -- Carrying a loose hose end: keep its reference, hunt for connectors.
+    if player.hoseGrabNodeId ~= nil and player.msCarriedHoseId ~= nil then
+        local hose = NetworkUtil.getObject(player.msCarriedHoseId)
+        if hose ~= nil then
+            hose:findConnector(player.hoseGrabNodeId)
+            HosePlayer.fs25_updateCarriedPrompts(player, hose)
+        end
+        return
+    end
+
+    -- Not carrying: look for a hose end via the targeter.
+    player.lastFoundHose = nil
+    player.lastFoundGradNodeId = 0
+    player.lastFoundObjectIsHose = false
+    player.lastFoundHoseIsConnected = false
+
+    local targeter = player.targeter
+    if targeter == nil then
+        return
+    end
+
+    local node = targeter:getClosestTargetedNodeFromType(HosePlayer)
+    if node == nil or not entityExists(node) then
+        return
+    end
+
+    local object = g_currentMission:getNodeObject(node)
+    if object == nil or object.isaHose == nil or not object:isaHose() then
+        return
+    end
+
+    local wx, wy, wz = getWorldTranslation(node)
+    local grabNode = object:getClosestGrabNode(wx, wy, wz)
+    if grabNode == nil then
+        return
+    end
+
+    local isConnected = object:isConnected(grabNode)
+    if not (object:isDetached(grabNode) or isConnected) then
+        return
+    end
+
+    player.lastFoundHose = NetworkUtil.getObjectId(object)
+    player.lastFoundGradNodeId = grabNode.id
+    player.lastFoundObjectIsHose = true
+    player.lastFoundHoseIsConnected = isConnected
+
+    if not player.msLoggedFirstDetect then
+        player.msLoggedFirstDetect = true
+        print("[ManureSystem] HosePlayer(FS25): hose end detected; interaction prompt enabled.")
+    end
+
+    if object:isDetached(grabNode) then
+        HosePlayer.fs25_setActionActive(player, InputAction.MS_ATTACH_HOSE, true, g_i18n:getText("input_MS_ATTACH_HOSE"))
+    elseif isConnected then
+        HosePlayer.fs25_offerConnectedPrompts(player, object, grabNode)
+    end
+end
+
+function HosePlayer.fs25_updateCarriedPrompts(player, hose)
+    -- Always allow dropping while carrying.
+    HosePlayer.fs25_setActionActive(player, InputAction.MS_DETACH_HOSE, true, g_i18n:getText("input_MS_DETACH_HOSE"))
+
+    local spec = hose.spec_hose
+    local grabNode = hose:getGrabNodeById(player.hoseGrabNodeId)
+    if grabNode ~= nil and hose:isAttached(grabNode) and spec.foundConnectorId ~= 0 and not spec.foundConnectorIsConnected then
+        local text = spec.foundConnectorIsParkPlace and g_i18n:getText("action_storeHose") or g_i18n:getText("input_MS_ATTACH_HOSE")
+        HosePlayer.fs25_setActionActive(player, InputAction.MS_ATTACH_HOSE, true, text)
+    end
+end
+
+function HosePlayer.fs25_offerConnectedPrompts(player, hose, grabNode)
+    local spec = hose.spec_hose
+    local desc = spec.grabNodesToObjects[grabNode.id]
+    if desc == nil then
+        return
+    end
+    local object = desc.vehicle
+    local connector = object:getConnectorById(desc.connectorId)
+    local hasFlow = connector.manureFlowAnimationName ~= nil or connector.manureFlowAnimationIndex ~= nil
+    if hasFlow then
+        HosePlayer.fs25_setActionActive(player, InputAction.MS_TOGGLE_FLOW, true, g_i18n:getText("action_toggleManureFlow"))
+    end
+    if not hasFlow or not connector.hasOpenManureFlow then
+        HosePlayer.fs25_setActionActive(player, InputAction.MS_DETACH_HOSE, true, g_i18n:getText("input_MS_DETACH_HOSE"))
+    end
+end
+
+-- MS_ATTACH_HOSE: grab a loose end, or (while carrying) attach it to a found connector.
+function HosePlayer.fs25_onAttach(inputComponent, actionName, inputValue, callbackState, isAnalog)
+    local player = inputComponent.player
+    if player == nil then
+        return
+    end
+
+    if player.hoseGrabNodeId ~= nil and player.msCarriedHoseId ~= nil then
+        local hose = NetworkUtil.getObject(player.msCarriedHoseId)
+        if hose ~= nil then
+            local spec = hose.spec_hose
+            local grabNode = hose:getGrabNodeById(player.hoseGrabNodeId)
+            if grabNode ~= nil and hose:isAttached(grabNode) and spec.foundConnectorId ~= 0 and spec.foundVehicleId ~= 0 and not spec.foundConnectorIsConnected then
+                hose:attach(grabNode.id, spec.foundConnectorId, NetworkUtil.getObject(spec.foundVehicleId))
+            end
+        end
+        return
+    end
+
+    if player.lastFoundObjectIsHose then
+        local hose = NetworkUtil.getObject(player.lastFoundHose)
+        if hose ~= nil then
+            local grabNode = hose:getGrabNodeById(player.lastFoundGradNodeId)
+            if grabNode ~= nil and not hose:isConnected(grabNode) then
+                player.msCarriedHoseId = player.lastFoundHose
+                hose:grab(grabNode.id, player)
+            end
+        end
+    end
+end
+
+-- MS_DETACH_HOSE: drop the carried end, or detach a connected end.
+function HosePlayer.fs25_onDetach(inputComponent, actionName, inputValue, callbackState, isAnalog)
+    local player = inputComponent.player
+    if player == nil then
+        return
+    end
+
+    if player.hoseGrabNodeId ~= nil and player.msCarriedHoseId ~= nil then
+        local hose = NetworkUtil.getObject(player.msCarriedHoseId)
+        if hose ~= nil then
+            hose:drop(player.hoseGrabNodeId, player)
+        end
+        player.msCarriedHoseId = nil
+        return
+    end
+
+    if player.lastFoundObjectIsHose and player.lastFoundHoseIsConnected then
+        local hose = NetworkUtil.getObject(player.lastFoundHose)
+        if hose ~= nil then
+            local spec = hose.spec_hose
+            local grabNode = hose:getGrabNodeById(player.lastFoundGradNodeId)
+            if grabNode ~= nil and hose:isConnected(grabNode) then
+                local desc = spec.grabNodesToObjects[grabNode.id]
+                if desc ~= nil then
+                    hose:detach(grabNode.id, desc.connectorId, desc.vehicle)
+                end
+            end
+        end
+    end
+end
+
+-- MS_TOGGLE_FLOW: open/close manure flow on the connected connector.
+function HosePlayer.fs25_onToggleFlow(inputComponent, actionName, inputValue, callbackState, isAnalog)
+    local player = inputComponent.player
+    if player == nil then
+        return
+    end
+    local hoseId = player.msCarriedHoseId or player.lastFoundHose
+    local nodeId = player.hoseGrabNodeId or player.lastFoundGradNodeId
+    if hoseId == nil or nodeId == nil then
+        return
+    end
+    local hose = NetworkUtil.getObject(hoseId)
+    if hose == nil then
+        return
+    end
+    local spec = hose.spec_hose
+    local grabNode = hose:getGrabNodeById(nodeId)
+    if grabNode == nil or not hose:isConnected(grabNode) then
+        return
+    end
+    local desc = spec.grabNodesToObjects[grabNode.id]
+    if desc == nil then
+        return
+    end
+    local vehicle = desc.vehicle
+    local connector = vehicle:getConnectorById(desc.connectorId)
+    local hasFlow = connector.manureFlowAnimationName ~= nil or connector.manureFlowAnimationIndex ~= nil
+    local animationName = connector.manureFlowAnimationName ~= nil and connector.manureFlowAnimationName or connector.manureFlowAnimationIndex
+    if hasFlow and not vehicle:getIsAnimationPlaying(animationName) then
+        vehicle:setIsManureFlowOpen(desc.connectorId, not connector.hasOpenManureFlow, false)
     end
 end

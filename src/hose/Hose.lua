@@ -717,15 +717,25 @@ function Hose:grab(id, player, noEventSend)
 
         local desc = {}
 
-        local kinematicHelperNode, kinematicHelperNodeChild = player.model:getKinematicHelpers()
+        -- FS25: the kinematic helper moved from player.model onto the Hands hand tool.
+        local kinematicHelperNode, kinematicHelperNodeChild
+        if player.model ~= nil and player.model.getKinematicHelpers ~= nil then
+            kinematicHelperNode, kinematicHelperNodeChild = player.model:getKinematicHelpers()
+        elseif player.hands ~= nil and player.hands.getKinematicNode ~= nil then
+            kinematicHelperNode, kinematicHelperNodeChild = player.hands:getKinematicNode()
+        end
 
-        desc.actor1 = kinematicHelperNode
-        desc.actor2 = componentNode
-        desc.transform = kinematicHelperNodeChild
-        desc.anchor1 = kinematicHelperNode
-        desc.anchor2 = grabNode.node
+        if kinematicHelperNode ~= nil then
+            desc.actor1 = kinematicHelperNode
+            desc.actor2 = componentNode
+            desc.transform = kinematicHelperNodeChild or kinematicHelperNode
+            desc.anchor1 = kinematicHelperNode
+            desc.anchor2 = grabNode.node
 
-        grabNode.jointIndex = self:constructPlayerJoint(desc, self:getTotalMass())
+            grabNode.jointIndex = self:constructPlayerJoint(desc, self:getTotalMass())
+        else
+            Logging.warning("[ManureSystem] Hose:grab: no kinematic helper node available for the player; the hose end will not follow (FS25 hands not ready).")
+        end
     end
 
     player.isCarryingObject = true
