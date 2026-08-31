@@ -15,7 +15,7 @@ local modName = g_currentModName or "unknown"
 ---@type ManureSystem the current loaded mod env.
 local modEnvironment
 
-print("[ManureSystem] ===== FS25 conversion build: v4 (Ray custom) loaded =====")
+print("[ManureSystem] ===== FS25 conversion build: v5 (Ray custom) loaded =====")
 
 -- FS25: table.copy was removed from the sandboxed Lua environment; provide a shim so
 -- the mod's few table.copy() calls keep working. Guarded so we never override a real
@@ -34,6 +34,36 @@ if table.copy == nil then
             end
         end
         return dst
+    end
+end
+
+-- FS25: MathUtil.clamp was removed from the sandboxed environment (and a couple of
+-- vector helpers may be gone too); restore any that are missing so the mod's math
+-- keeps working. Guarded so we never override a real engine implementation.
+MathUtil = MathUtil or {}
+if MathUtil.clamp == nil then
+    function MathUtil.clamp(value, minValue, maxValue)
+        return math.max(minValue, math.min(maxValue, value))
+    end
+end
+if MathUtil.vector2Length == nil then
+    function MathUtil.vector2Length(x, z)
+        return math.sqrt(x * x + z * z)
+    end
+end
+if MathUtil.vector2LengthSq == nil then
+    function MathUtil.vector2LengthSq(x, z)
+        return x * x + z * z
+    end
+end
+if MathUtil.vector3Length == nil then
+    function MathUtil.vector3Length(x, y, z)
+        return math.sqrt(x * x + y * y + z * z)
+    end
+end
+if MathUtil.vector3Lerp == nil then
+    function MathUtil.vector3Lerp(x1, y1, z1, x2, y2, z2, alpha)
+        return x1 + (x2 - x1) * alpha, y1 + (y2 - y1) * alpha, z1 + (z2 - z1) * alpha
     end
 end
 
