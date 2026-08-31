@@ -178,6 +178,8 @@ local function vehicleLoad(self, superFunc, data, ...)
     local _, baseDir = Utils.getModNameAndBaseDirectory(filename)
     local xmlFilename = replaceSanitized(filename, baseDir, "")
 
+    print(("[MS-INSERT-DIAG] vehicle load: file='%s' stripped='%s' matched=%s"):format(tostring(filename), tostring(xmlFilename), tostring(insertions[xmlFilename] ~= nil)))
+
     if insertions[xmlFilename] == nil then
         return superFunc(self, data, ...)
     end
@@ -185,6 +187,8 @@ local function vehicleLoad(self, superFunc, data, ...)
     local typeName = getInsertionTypeName(self, data)
     local orgEntry = typeName ~= nil and g_vehicleTypeManager:getTypeByName(typeName) or nil
     local isInjected, registrySpec = injectRegistry(xmlFilename, orgEntry, typeName, data)
+
+    print(("[MS-INSERT-DIAG] vehicle MATCH: stripped='%s' type='%s' orgEntry=%s injected=%s"):format(tostring(xmlFilename), tostring(typeName), tostring(orgEntry ~= nil), tostring(isInjected)))
 
     local loadingState = superFunc(self, data, ...)
     if isInjected then
@@ -280,6 +284,11 @@ local function loadInsertions()
         local path = xmlFile:getString(key .. "#path")
         loadInsertion(path, type)
     end)
+
+    for insertionKey in pairs(insertions) do
+        print(("[MS-INSERT-DIAG] registered insertion key: '%s'"):format(tostring(insertionKey)))
+    end
+
     xmlFile:delete()
 end
 
