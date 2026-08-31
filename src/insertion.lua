@@ -171,6 +171,38 @@ local function getInsertionTypeName(self, data)
     return nil
 end
 
+-- FS25 diagnostic: dump an injected placeable's node tree so FS22 connector node
+-- index paths can be remapped to the changed FS25 i3d. One-shot per object.
+local function msDumpNodeTree(baseNode, label, maxDepth, budget)
+    if baseNode == nil then
+        return
+    end
+
+    local printed = 0
+
+    local function recurse(node, path, depth)
+        if node == nil or printed >= budget then
+            return
+        end
+
+        printed = printed + 1
+        print(("[MS-NODETREE] %s '%s' rb=%s"):format(path, tostring(getName(node)), tostring(NodeExtensions.isRigidBody(node))))
+
+        if depth >= maxDepth then
+            return
+        end
+
+        local numChildren = getNumOfChildren(node)
+        for i = 0, numChildren - 1 do
+            local childPath = (path == label) and (label .. i) or (path .. "|" .. i)
+            recurse(getChildAt(node, i), childPath, depth + 1)
+        end
+    end
+
+    recurse(baseNode, label, 0)
+    print(("[MS-NODETREE] done: printed %d nodes (budget %d, depth<=%d)"):format(printed, budget, maxDepth))
+end
+
 -- FS25: the transient onPreLoad event-listener injection (below) never fires,
 -- because FS25 resolves each vehicle instance's event listeners at construction
 -- (new()) -- BEFORE Vehicle:load runs -- so a listener added to the type during
@@ -210,6 +242,12 @@ function ManureSystemApplyInsertion(self)
 
     local msPrefix = self.xmlFile:hasProperty("placeable.manureSystem#hasConnectors") and "placeable" or "vehicle"
     print(("[MS-INSERT-DIAG] applyInsertion: cfg='%s' prefix=%s connector0=%s hasConnectors=%s"):format(tostring(filename), msPrefix, tostring(self.xmlFile:hasProperty(msPrefix .. ".manureSystemConnectors.connector(0)")), tostring(self.xmlFile:hasProperty(msPrefix .. ".manureSystem#hasConnectors"))))
+
+    if msPrefix == "placeable" and not self.msNodeTreeDumped then
+        self.msNodeTreeDumped = true
+        local baseNode = (self.components ~= nil and self.components[1] ~= nil and self.components[1].node) or self.rootNode
+        msDumpNodeTree(baseNode, "0>", 6, 500)
+    end
 end
 
 local function vehicleLoad(self, superFunc, data, ...)
