@@ -47,6 +47,10 @@ end
 
 ---@return void
 function ManureSystemMixer:onLoad(savegame)
+    if ManureSystemApplyInsertion ~= nil then
+        ManureSystemApplyInsertion(self)
+    end
+
     self.spec_manureSystemMixer = self[("spec_%s.manureSystemMixer"):format(ManureSystemMixer.MOD_NAME)]
     local spec = self.spec_manureSystemMixer
 

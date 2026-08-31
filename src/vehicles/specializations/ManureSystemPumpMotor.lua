@@ -129,6 +129,10 @@ end
 
 ---@return void
 function ManureSystemPumpMotor:onLoad(savegame)
+    if ManureSystemApplyInsertion ~= nil then
+        ManureSystemApplyInsertion(self)
+    end
+
     self.spec_manureSystemPumpMotor = self[("spec_%s.manureSystemPumpMotor"):format(ManureSystemPumpMotor.MOD_NAME)]
     local spec = self.spec_manureSystemPumpMotor
 

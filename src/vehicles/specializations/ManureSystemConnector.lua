@@ -60,6 +60,10 @@ end
 
 ---@return void
 function ManureSystemConnector:onLoad(savegame)
+    if ManureSystemApplyInsertion ~= nil then
+        ManureSystemApplyInsertion(self)
+    end
+
     self.spec_manureSystemConnector = self[("spec_%s.manureSystemConnector"):format(ManureSystemConnector.MOD_NAME)]
 
     local spec = self.spec_manureSystemConnector

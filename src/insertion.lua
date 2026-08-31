@@ -171,6 +171,46 @@ local function getInsertionTypeName(self, data)
     return nil
 end
 
+-- FS25: the transient onPreLoad event-listener injection (below) never fires,
+-- because FS25 resolves each vehicle instance's event listeners at construction
+-- (new()) -- BEFORE Vehicle:load runs -- so a listener added to the type during
+-- load is never seen. Instead, apply the insertion mapping directly to the
+-- vehicle's own xmlFile from the manure specializations' onLoad (which we have
+-- confirmed does run). Idempotent via the msInsertionApplied guard so it is safe
+-- to call from every manure spec's onLoad regardless of order.
+function ManureSystemApplyInsertion(self)
+    if self == nil or self.xmlFile == nil then
+        return
+    end
+
+    if self.msInsertionApplied then
+        return
+    end
+
+    local filename = getInsertionFilename(self, nil)
+    if filename == nil then
+        return
+    end
+
+    local _, baseDir = Utils.getModNameAndBaseDirectory(filename)
+    local xmlFilename = replaceSanitized(filename, baseDir, "")
+    local data = insertions[xmlFilename]
+    if data == nil then
+        return
+    end
+
+    for baseKey, mapping in pairs(data.mapping) do
+        for _, map in ipairs(mapping) do
+            local key = map.isRelative and baseKey .. map.xmlKey or map.xmlKey
+            self.xmlFile[typeToXMLSetFunction[map.xmlType]](self.xmlFile, key, map.xmlValue)
+        end
+    end
+
+    self.msInsertionApplied = true
+
+    print(("[MS-INSERT-DIAG] applyInsertion: cfg='%s' connector0=%s hasConnectors=%s"):format(tostring(filename), tostring(self.xmlFile:hasProperty("vehicle.manureSystemConnectors.connector(0)")), tostring(self.xmlFile:hasProperty("vehicle.manureSystem#hasConnectors"))))
+end
+
 local function vehicleLoad(self, superFunc, data, ...)
     local filename = getInsertionFilename(self, data)
     if filename == nil then

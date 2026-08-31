@@ -42,6 +42,10 @@ end
 
 ---@return void
 function ManureSystemFillArmReceiver:onLoad(savegame)
+    if ManureSystemApplyInsertion ~= nil then
+        ManureSystemApplyInsertion(self)
+    end
+
     self.spec_manureSystemFillArmReceiver = self[("spec_%s.manureSystemFillArmReceiver"):format(ManureSystemFillArmReceiver.MOD_NAME)]
     local spec = self.spec_manureSystemFillArmReceiver
 
