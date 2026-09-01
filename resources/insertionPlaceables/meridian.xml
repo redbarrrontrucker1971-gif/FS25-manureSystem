@@ -7,7 +7,7 @@
         <manureSystemConnectors>
             <connector>
                 <entry type="string" key="#type" value="COUPLINGFERTILIZER"/>
-                <entry type="string" key="#componentNode" value="0>7|0"/>
+                <entry type="string" key="#componentNode" value="0>6|0"/>
                 <entry type="bool" key="#createNode" value="true"/>
                 <entry type="string" key="#linkNode" value="0>1"/>
                 <entry type="string" key="#position" value="-1.243 0.691 2.153"/>
@@ -16,7 +16,7 @@
 
             <connector>
                 <entry type="string" key="#type" value="COUPLINGFERTILIZER"/>
-                <entry type="string" key="#componentNode" value="0>7|0"/>
+                <entry type="string" key="#componentNode" value="0>6|0"/>
                 <entry type="bool" key="#createNode" value="true"/>
                 <entry type="string" key="#linkNode" value="0>1"/>
                 <entry type="string" key="#position" value="-1.425 0.36 2.036"/>
