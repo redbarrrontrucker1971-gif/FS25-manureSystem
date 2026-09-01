@@ -15,7 +15,7 @@ local modName = g_currentModName or "unknown"
 ---@type ManureSystem the current loaded mod env.
 local modEnvironment
 
-print("[ManureSystem] ===== FS25 conversion build: v16 (Ray custom) loaded =====")
+print("[ManureSystem] ===== FS25 conversion build: v17 (Ray custom) loaded =====")
 
 -- FS25: table.copy was removed from the sandboxed Lua environment; provide a shim so
 -- the mod's few table.copy() calls keep working. Guarded so we never override a real
@@ -159,7 +159,14 @@ local function loadFromXMLFile(mission)
             local xmlFilename = missionInfo.savegameDirectory .. "/manureSystem.xml"
             print(("[MS-LOAD-DIAG]   savegameDir=%s fileExists=%s"):format(tostring(missionInfo.savegameDirectory), tostring(fileExists(xmlFilename))))
             if missionInfo.savegameDirectory ~= nil and fileExists(xmlFilename) then
-                modEnvironment:load(xmlFilename)
+                -- FS25: items/placeables load asynchronously AFTER loadItemsFinished, so
+                -- connectors are not registered yet here. Defer the reconnect into
+                -- ManureSystem:update until connector registration has settled.
+                modEnvironment.pendingLoadXmlFilename = xmlFilename
+                modEnvironment.pendingLoadElapsed = 0
+                modEnvironment.pendingLoadStableMs = 0
+                modEnvironment.pendingLoadLastCount = -1
+                print(("[MS-LOAD-DIAG]   deferring reconnect to update loop (file=%s)"):format(xmlFilename))
             end
         else
             print("[MS-LOAD-DIAG]   missionInfo not valid")

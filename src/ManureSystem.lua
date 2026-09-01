@@ -123,6 +123,37 @@ function ManureSystem:load(xmlFilename)
     end
 end
 
+---FS25 deferred restore: the savegame hook (loadItemsFinished) now fires before
+-- items/placeables have registered their connectors, so an immediate reconnect
+-- finds an empty list. main.lua stashes the savegame path on pendingLoadXmlFilename;
+-- we wait here until connector registration has settled, then reconnect once.
+function ManureSystem:update(dt)
+    if self.pendingLoadXmlFilename == nil then
+        return
+    end
+
+    self.pendingLoadElapsed = (self.pendingLoadElapsed or 0) + dt
+
+    local count = #self.manureSystemConnectors
+    if count > 0 and count == self.pendingLoadLastCount then
+        self.pendingLoadStableMs = (self.pendingLoadStableMs or 0) + dt
+    else
+        self.pendingLoadStableMs = 0
+        self.pendingLoadLastCount = count
+    end
+
+    -- reconnect once registration has been stable for ~1s, or after a hard timeout
+    local settled = count > 0 and self.pendingLoadStableMs >= 1000
+    local timedOut = self.pendingLoadElapsed >= 20000
+
+    if settled or timedOut then
+        local xmlFilename = self.pendingLoadXmlFilename
+        self.pendingLoadXmlFilename = nil
+        print(("[MS-LOAD-DIAG] deferred reconnect firing: elapsed=%dms connectors=%d settled=%s timedOut=%s"):format(self.pendingLoadElapsed, count, tostring(settled), tostring(timedOut)))
+        self:load(xmlFilename)
+    end
+end
+
 ---Called when mission is loaded.
 function ManureSystem:loadFromXML(xmlFile)
     local version = xmlFile:getInt("manureSystem#version")
