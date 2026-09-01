@@ -17,7 +17,6 @@
     <file path="resources/insertionVehicles/hardi.xml"/>
 
     <file type="placeable" path="resources/insertionPlaceables/lizard.xml"/>
-    <file type="placeable" path="resources/insertionPlaceables/mapAlpine.xml"/>
     <file type="placeable" path="resources/insertionPlaceables/meridian.xml"/>
     <file type="placeable" path="resources/insertionPlaceables/planET.xml"/>
     <file type="placeable" path="resources/insertionPlaceables/rudolfHormann.xml"/>
