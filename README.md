@@ -1,6 +1,6 @@
 # Manure System for Farming Simulator 25
 
-![For Farming Simulator 22](https://img.shields.io/badge/Farming%20Simulator-25-10BEFF.svg) [![Releases](https://img.shields.io/github/release/stijnwop/manureSystem.svg)](https://github.com/stijnwop/manureSystem/releases) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+![For Farming Simulator 22](https://img.shields.io/badge/Farming%20Simulator-25-10BEFF.svg) [![Releases](https://img.shields.io/github/release/redbarrontrucker1971/manureSystem.svg)](https://github.com/stijnwop/manureSystem/releases) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 The Manure System mod changes the whole gameplay around handling your manure application. Experience what it really
 means to pump liquids as a real farmer.
