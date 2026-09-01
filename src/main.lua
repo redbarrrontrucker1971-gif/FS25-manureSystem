@@ -15,7 +15,7 @@ local modName = g_currentModName or "unknown"
 ---@type ManureSystem the current loaded mod env.
 local modEnvironment
 
-print("[ManureSystem] ===== FS25 conversion build: v15 (Ray custom) loaded =====")
+print("[ManureSystem] ===== FS25 conversion build: v16 (Ray custom) loaded =====")
 
 -- FS25: table.copy was removed from the sandboxed Lua environment; provide a shim so
 -- the mod's few table.copy() calls keep working. Guarded so we never override a real
@@ -152,13 +152,17 @@ local function loadedMission(mission, node)
 end
 
 local function loadFromXMLFile(mission)
+    print(("[MS-LOAD-DIAG] loadFromXMLFile fired: isLoaded=%s isServer=%s"):format(tostring(isLoaded()), tostring(mission ~= nil and mission:getIsServer())))
     if isLoaded() and mission:getIsServer() then
         local missionInfo = mission.missionInfo
         if missionInfo.isValid then
             local xmlFilename = missionInfo.savegameDirectory .. "/manureSystem.xml"
+            print(("[MS-LOAD-DIAG]   savegameDir=%s fileExists=%s"):format(tostring(missionInfo.savegameDirectory), tostring(fileExists(xmlFilename))))
             if missionInfo.savegameDirectory ~= nil and fileExists(xmlFilename) then
                 modEnvironment:load(xmlFilename)
             end
+        else
+            print("[MS-LOAD-DIAG]   missionInfo not valid")
         end
     end
 end
@@ -199,6 +203,7 @@ end
 
 --- Init the mod.
 local function init()
+    print(("[MS-LOAD-DIAG] init: Mission00.load=%s loadMission00Finished=%s loadItemsFinished=%s FSCareerMissionInfo.saveToXMLFile=%s"):format(tostring(Mission00.load ~= nil), tostring(Mission00.loadMission00Finished ~= nil), tostring(Mission00.loadItemsFinished ~= nil), tostring(FSCareerMissionInfo.saveToXMLFile ~= nil)))
     FSBaseMission.delete = Utils.appendedFunction(FSBaseMission.delete, unload)
     Mission00.load = Utils.prependedFunction(Mission00.load, load)
     Mission00.loadMission00Finished = Utils.appendedFunction(Mission00.loadMission00Finished, loadedMission)

@@ -136,6 +136,8 @@ function ManureSystem:loadFromXML(xmlFile)
     self.savedItemsToId = self:getSavedItemsList()
     table.sort(self.manureSystemConnectors, sortByClassAndId)
 
+    print(("[MS-LOAD-DIAG] loadFromXML: version=%s validVersion=%s connectorsRegistered=%d"):format(tostring(version), tostring(validVersion), #self.manureSystemConnectors))
+
     local i = 0
     while true do
         local key = ("manureSystem.hoses.hose(%d)"):format(i)
@@ -144,7 +146,9 @@ function ManureSystem:loadFromXML(xmlFile)
         end
 
         local hoseId = xmlFile:getInt(key .. "#objectId")
-        if self:connectorObjectExists(hoseId) then
+        local hoseExists = self:connectorObjectExists(hoseId)
+        print(("[MS-LOAD-DIAG]   saved hose(%d): hoseId=%s existsInConnectors=%s"):format(i, tostring(hoseId), tostring(hoseExists)))
+        if hoseExists then
             local object = self:getConnectorObject(hoseId)
             if object.isaHose ~= nil and object:isaHose() then
                 object:loadFromXML(key, xmlFile, validVersion)

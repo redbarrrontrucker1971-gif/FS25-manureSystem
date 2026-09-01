@@ -257,12 +257,16 @@ function Hose:loadFromXML(key, xmlFile, valid)
         local objectId = xmlFile:getInt(loadKey .. "#objectId")
         local objectName = xmlFile:getString(loadKey .. "#objectName")
 
-        if g_currentMission.manureSystem:connectorObjectExists(objectId) then
+        local targetExists = g_currentMission.manureSystem:connectorObjectExists(objectId)
+        print(("[MS-LOAD-DIAG]     grabNode(%d): grabNodeId=%s connectorId=%s objectId=%s targetExists=%s valid=%s"):format(i, tostring(grabNodeId), tostring(connectorId), tostring(objectId), tostring(targetExists), tostring(valid)))
+
+        if targetExists then
             local object = g_currentMission.manureSystem:getConnectorObject(objectId)
 
             --Do a check on the saved object name to filter out obvious cases.
             local isNotTheSameObject = objectName ~= nil and object:getName() ~= objectName
             if valid and not isNotTheSameObject then
+                print(("[MS-LOAD-DIAG]     -> attach grabNode %s to connector %s"):format(tostring(grabNodeId), tostring(connectorId)))
                 self:attach(grabNodeId, connectorId, object)
             else
                 if isNotTheSameObject then
