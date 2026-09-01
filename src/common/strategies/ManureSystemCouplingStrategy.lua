@@ -454,12 +454,15 @@ function ManureSystemCouplingStrategy:loadSharedSetConnectorAttributes(xmlFile, 
 end
 
 function ManureSystemCouplingStrategy:loadSharedSetConnectorAnimation(xmlFile, key, connector, connectorNode, connectorAnimationName, sharedConnector)
+    print(("[MS-VALVE-DIAG] loadSharedSetConnAnim cfg=%s which=%s hasAnimation=%s specAV=%s specAO=%s key=%s"):format(tostring(self.object.configFileName), tostring(connectorAnimationName), tostring(sharedConnector.hasAnimation), tostring(self.object.spec_animatedVehicle ~= nil), tostring(self.object.spec_animatedObjects ~= nil), tostring(key)))
     if sharedConnector.hasAnimation then
         local spec_animatedVehicle = self.object.spec_animatedVehicle
         if spec_animatedVehicle ~= nil then
             local animation = {}
 
-            if self.object:loadAnimation(xmlFile, key .. ".vehicle.animation", animation, connectorNode) then
+            local msLoadOk = self.object:loadAnimation(xmlFile, key .. ".vehicle.animation", animation, connectorNode)
+            print(("[MS-VALVE-DIAG]   [AV] loadAnimation ok=%s name=%s"):format(tostring(msLoadOk), tostring(animation.name)))
+            if msLoadOk then
                 animation.name = connector.id .. animation.name -- make animation unique for the vehicle.
                 spec_animatedVehicle.animations[animation.name] = animation
                 -- Set the loaded animation as given connector animation name.

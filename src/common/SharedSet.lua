@@ -187,12 +187,14 @@ end
 ---@return void
 function SharedSet:applySharedValve(connector, strategy, xmlFile, baseKey, xmlFileShared)
     local sharedValveKey = xmlFile:getValue(baseKey .. ".valve#type")
+    print(("[MS-VALVE-DIAG] applySharedValve base=%s valveKey=%s"):format(tostring(baseKey), tostring(sharedValveKey)))
     if sharedValveKey == nil then
         return
     end
 
     local sharedValve = self.valves[sharedValveKey:upper()]
     if sharedValve == nil then
+        print(("[MS-VALVE-DIAG]   sharedValve NOT FOUND for key=%s"):format(tostring(sharedValveKey)))
         return
     end
 
@@ -203,14 +205,17 @@ function SharedSet:applySharedValve(connector, strategy, xmlFile, baseKey, xmlFi
     NodeExtensions.setVectorByXML(valveNode, xmlFile, baseKey .. ".valve#rotation", NodeExtensions.setRotation)
 
     local sharedHandleKey = xmlFile:getValue(baseKey .. ".handle#type")
+    print(("[MS-VALVE-DIAG]   handleKey=%s"):format(tostring(sharedHandleKey)))
     if sharedHandleKey == nil then
         return
     end
 
     local sharedHandle = sharedValve.handles[sharedHandleKey:upper()]
     if sharedHandle == nil then
+        print(("[MS-VALVE-DIAG]   sharedHandle NOT FOUND for key=%s"):format(tostring(sharedHandleKey)))
         return
     end
+    print(("[MS-VALVE-DIAG]   sharedHandle found hasAnimation=%s handleXMLKey=%s"):format(tostring(sharedHandle.hasAnimation), tostring(sharedHandle.handleXMLKey)))
 
     local handleNode = clone(sharedHandle.node, false, false, false)
     if strategy ~= nil then
