@@ -1,0 +1,16 @@
+version: v1
+
+mod:
+    name: ManureSystem
+    author: Wopster
+
+build:
+    ignore:
+        - docs
+        - .git
+        - .idea
+    outputName: FS22_manureSystem
+    cleanOutput: true
+    code: src/
+    outputTextures:
+        type: dds
