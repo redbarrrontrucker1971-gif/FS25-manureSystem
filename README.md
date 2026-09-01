@@ -1,6 +1,6 @@
-# Manure System for Farming Simulator 25
+# Manure System for Farming Simulator 22
 
-![For Farming Simulator 22](https://img.shields.io/badge/Farming%20Simulator-25-10BEFF.svg) [![Releases](https://img.shields.io/github/release/redbarrontruker1971/manureSystem.svg)](https://github.com/redbarrontrucker1971/manureSystem/releases) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+![For Farming Simulator 22](https://img.shields.io/badge/Farming%20Simulator-22-10BEFF.svg) [![Releases](https://img.shields.io/github/release/stijnwop/manureSystem.svg)](https://github.com/stijnwop/manureSystem/releases) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 The Manure System mod changes the whole gameplay around handling your manure application. Experience what it really
 means to pump liquids as a real farmer.
@@ -21,7 +21,7 @@ hoses affects your pump time.
 - Why is mod X not working with the Manure System?
 
 > Most mods need to be prepared for the Manure System in order to
-> work. [Down below you can find a list of vehicles](https://github.com/redbarrontrucker1971/manureSystem#out-of-the-box-support)
+> work. [Down below you can find a list of vehicles](https://github.com/stijnwop/manureSystem#out-of-the-box-support)
 > that
 > are supported out of the box. Please be patient with the modders that are willing to prepare their vehicles for this
 > system specially for you, it will come soon!
@@ -34,7 +34,7 @@ hoses affects your pump time.
 - How can I add the Manure System to my map?
 
 > Understand that all maps are running the new placeable system for the animal areas and BGA. You only need to
-> follow [the tutorial](https://github.com/redbarrontrucker1971/manureSystem#modding) included for adding Manure System support to
+> follow [the tutorial](https://github.com/stijnwop/manureSystem#modding) included for adding Manure System support to
 > the
 > included placeables of the given map.
 
@@ -207,8 +207,8 @@ Learn more about making compatible mods for the ManureSystem, improving maps, ve
 
 Available tutorials can be found here:
 
-- [Modding with placeables](https://github.com/redbarrontrucker1971/manureSystem/blob/master/docs/PLACEABLES.md)
-- [Modding with vehicles](https://github.com/redbarrontrucker1971/manureSystem/blob/master/docs/VEHICLES.md)
+- [Modding with placeables](https://github.com/stijnwop/manureSystem/blob/master/docs/PLACEABLES.md)
+- [Modding with vehicles](https://github.com/stijnwop/manureSystem/blob/master/docs/VEHICLES.md)
 
 For help you can try to open an issue here, contact me on my discord or try the forums to get answers from the
 community.
