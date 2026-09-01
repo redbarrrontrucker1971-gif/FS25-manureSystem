@@ -21,7 +21,7 @@ hoses affects your pump time.
 - Why is mod X not working with the Manure System?
 
 > Most mods need to be prepared for the Manure System in order to
-> work. [Down below you can find a list of vehicles](https://github.com/stijnwop/manureSystem#out-of-the-box-support)
+> work. [Down below you can find a list of vehicles](https://github.com/redbarrontrucker1971/manureSystem#out-of-the-box-support)
 > that
 > are supported out of the box. Please be patient with the modders that are willing to prepare their vehicles for this
 > system specially for you, it will come soon!
