@@ -469,11 +469,16 @@ function ManureSystemCouplingStrategy:loadSharedSetConnectorAnimation(xmlFile, k
                 connector[connectorAnimationName] = animation.name
             end
         elseif self.object.spec_animatedObjects ~= nil then
-            if xmlFile:hasProperty(key .. ".placeable.animatedObject") then
+            local msHasProp = xmlFile:hasProperty(key .. ".placeable.animatedObject")
+            local msHasAnim = xmlFile:hasProperty(key .. ".placeable.animatedObject.animation")
+            print(("[MS-VALVE-DIAG]   [AO] which=%s hasProp=%s hasAnim=%s aoTable=%s"):format(tostring(connectorAnimationName), tostring(msHasProp), tostring(msHasAnim), tostring(self.object.spec_animatedObjects.animatedObjects ~= nil)))
+            if msHasProp or msHasAnim then
                 local animatedObject = AnimatedObject.new(self.object.isServer, self.object.isClient)
                 animatedObject.dependencies = {}
 
-                if animatedObject:load(connectorNode, xmlFile, key .. ".placeable.animatedObject", self.object.configFileName, self.object.i3dMappings) then
+                local msAOLoadOk = animatedObject:load(connectorNode, xmlFile, key .. ".placeable.animatedObject", self.object.configFileName, self.object.i3dMappings)
+                print(("[MS-VALVE-DIAG]   [AO] load ok=%s"):format(tostring(msAOLoadOk)))
+                if msAOLoadOk then
                     animatedObject.loadFromXMLFile = Utils.overwrittenFunction(animatedObject.loadFromXMLFile, function(_, superFunc, ...)
                         -- do not load animation time and direction for connector animation
                         return true
@@ -484,8 +489,10 @@ function ManureSystemCouplingStrategy:loadSharedSetConnectorAnimation(xmlFile, k
 
                     table.insert(self.object.spec_animatedObjects.animatedObjects, animatedObject)
                     connector[connectorAnimationName] = #self.object.spec_animatedObjects.animatedObjects
+                    print(("[MS-VALVE-DIAG]   [AO] SET %s=%s"):format(tostring(connectorAnimationName), tostring(connector[connectorAnimationName])))
                 else
                     animatedObject:delete()
+                    print("[MS-VALVE-DIAG]   [AO] load FAILED")
                     Logging.xmlError(xmlFile, "Failed to load animated object")
                 end
             end
