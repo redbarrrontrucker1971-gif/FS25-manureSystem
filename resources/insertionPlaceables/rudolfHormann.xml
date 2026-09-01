@@ -121,12 +121,12 @@
 
     <placeable xml="data/placeables/rudolfHormann/pigBarnMedium/pigBarnMedium.xml">
         <attributes>
-            <entry type="string" key="placeable.deletedNodes.deletedNode(0)#node" value="0>20|0|8"/>
+            <entry type="string" key="placeable.deletedNodes.deletedNode(0)#node" value="0>18|0|0|8"/>
 
             <entry type="float" key="placeable.husbandry.loadingStation.loadTrigger(0)#fillLitersPerSecond" value="285"/>
             <entry type="string" key="placeable.husbandry.loadingStation.loadTrigger(0).effectNode(0)#effectClass" value="PipeEffect"/>
             <entry type="string" key="placeable.husbandry.loadingStation.loadTrigger(0).effectNode(0)#node" value="0|0"/>
-            <entry type="string" key="placeable.husbandry.loadingStation.loadTrigger(0).effectNode(0)#linkNode" value="0>20|0|7"/>
+            <entry type="string" key="placeable.husbandry.loadingStation.loadTrigger(0).effectNode(0)#linkNode" value="0>18|0|0|7"/>
             <entry type="string" key="placeable.husbandry.loadingStation.loadTrigger(0).effectNode(0)#filename" value="$manureSystemDir$/resources/effects/effect.i3d"/>
             <entry type="string" key="placeable.husbandry.loadingStation.loadTrigger(0).effectNode(0)#position" value="2.5 4.79 0"/>
             <entry type="string" key="placeable.husbandry.loadingStation.loadTrigger(0).effectNode(0)#rotation" value="90 0 0"/>
@@ -145,11 +145,11 @@
             <connector>
                 <entry type="string" key="#type" value="COUPLING"/>
                 <entry type="string" key="#fillTypes" value="LIQUIDMANURE"/>
-                <entry type="string" key="#componentNode" value="0>21|0"/>
+                <entry type="string" key="#componentNode" value="0>19|0"/>
 
                 <entry type="int" key=".sharedSet#id" value="2"/>
                 <entry type="bool" key=".sharedSet#createNode" value="true"/>
-                <entry type="string" key=".sharedSet#linkNode" value="0>20|0|7"/>
+                <entry type="string" key=".sharedSet#linkNode" value="0>18|0|0|7"/>
                 <entry type="string" key=".sharedSet#position" value="0.207 0.338 1"/>
                 <entry type="string" key=".sharedSet#rotation" value="0 0 0"/>
                 <entry type="string" key=".sharedSet.connector#type" value="CONNECTOR_1"/>
@@ -161,12 +161,12 @@
 
     <placeable xml="data/placeables/rudolfHormann/pigBarnBig/pigBarnBig.xml">
         <attributes>
-            <entry type="string" key="placeable.deletedNodes.deletedNode(0)#node" value="0>20|0|2|0"/> <!-- the fence collision is a part of the main collision... -->
+            <entry type="string" key="placeable.deletedNodes.deletedNode(0)#node" value="0>18|0|0|2|0"/> <!-- the fence collision is a part of the main collision... -->
 
             <entry type="float" key="placeable.husbandry.loadingStation.loadTrigger(0)#fillLitersPerSecond" value="285"/>
             <entry type="string" key="placeable.husbandry.loadingStation.loadTrigger(0).effectNode(0)#effectClass" value="PipeEffect"/>
             <entry type="string" key="placeable.husbandry.loadingStation.loadTrigger(0).effectNode(0)#node" value="0|0"/>
-            <entry type="string" key="placeable.husbandry.loadingStation.loadTrigger(0).effectNode(0)#linkNode" value="0>20|0|2"/>
+            <entry type="string" key="placeable.husbandry.loadingStation.loadTrigger(0).effectNode(0)#linkNode" value="0>18|0|0|2"/>
             <entry type="string" key="placeable.husbandry.loadingStation.loadTrigger(0).effectNode(0)#filename" value="$manureSystemDir$/resources/effects/effect.i3d"/>
             <entry type="string" key="placeable.husbandry.loadingStation.loadTrigger(0).effectNode(0)#position" value="2.5 4.79 0"/>
             <entry type="string" key="placeable.husbandry.loadingStation.loadTrigger(0).effectNode(0)#rotation" value="90 0 0"/>
@@ -185,11 +185,11 @@
             <connector>
                 <entry type="string" key="#type" value="COUPLING"/>
                 <entry type="string" key="#fillTypes" value="LIQUIDMANURE"/>
-                <entry type="string" key="#componentNode" value="0>21|0"/>
+                <entry type="string" key="#componentNode" value="0>19|0"/>
 
                 <entry type="int" key=".sharedSet#id" value="2"/>
                 <entry type="bool" key=".sharedSet#createNode" value="true"/>
-                <entry type="string" key=".sharedSet#linkNode" value="0>20|0|2"/>
+                <entry type="string" key=".sharedSet#linkNode" value="0>18|0|0|2"/>
                 <entry type="string" key=".sharedSet#position" value="0.207 0.338 1"/>
                 <entry type="string" key=".sharedSet#rotation" value="0 0 0"/>
                 <entry type="string" key=".sharedSet.connector#type" value="CONNECTOR_1"/>
